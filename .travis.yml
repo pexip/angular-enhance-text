@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "0.10"
+
+script:
+  - sudo apt-get install phantomjs
+  - sudo npm -g install bower grunt-cli
+  - npm install
+  - grunt
+  - grunt ci
