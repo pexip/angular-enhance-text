@@ -8,8 +8,7 @@
 
     var filter;
 
-    // use the Notes container
-    beforeEach(module('angular-enhance-text'));
+    beforeEach(module('angular-replace-text'));
 
     beforeEach(inject(function ($filter) {
         filter = $filter('bposselt-enhance');
