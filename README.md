@@ -26,12 +26,13 @@ Then inject it into your app like:
     
 ```javascript
 angular.module('MyApp', ['bernhardposselt.enhancetext']);
+```
 
 Then the filter is available in your templates like:
 
 ```html
 {{ SomeText | enhanceText }}
-
+```
 
 ## Configuration
 
@@ -45,6 +46,7 @@ angular.module('MyApp', ['bernhardposselt.enhancetext']).
             ';)': '/img/smiley2.png'
         });
     });
+```
 
 Then call the methods below to tweak it to your likings
 
@@ -58,9 +60,11 @@ enhanceTextFilterProvider.setSmilies({
     ':)': '/img/smiley.png',
     ';)': '/img/smiley2.png'
 });
+```
 
 ### Disable Caching
 By default, caching is enabled. Should you not want that use:
 
 ```javascript
 enhanceTextFilterProvider.enableCaching(false);
+```
