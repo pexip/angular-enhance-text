@@ -28,7 +28,7 @@
     "karma": "~0.10.9"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt ci"
   },
   "repository": {
     "type": "git",

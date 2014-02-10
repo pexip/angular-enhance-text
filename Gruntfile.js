@@ -88,6 +88,6 @@ module.exports = function(grunt) {
     // make tasks available under simpler commands
     grunt.registerTask('default', ['jshint', 'concat', 'wrap', 'uglify']);
     grunt.registerTask('test', ['karma:unit']);
-    grunt.registerTask('ci', ['karma:continuous']);
+    grunt.registerTask('ci', ['default', 'karma:continuous']);
 
 };

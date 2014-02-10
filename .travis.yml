@@ -3,9 +3,5 @@ node_js:
   - "0.10"
 
 install:
-  - npm install -g grunt
+  - npm install -g grunt-cli
   - npm install
-
-script:
-  - grunt
-  - grunt ci
