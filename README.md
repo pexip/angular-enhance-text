@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Raydiation/angular-enhance-text.png?branch=master)](https://travis-ci.org/Raydiation/angular-enhance-text)
 [![Coverage Status](https://coveralls.io/repos/Raydiation/angular-enhance-text/badge.png?branch=master)](https://coveralls.io/r/Raydiation/angular-enhance-text?branch=master)
+[![Bower version](https://badge.fury.io/bo/angular-enhance-text.png)](http://badge.fury.io/bo/angular-enhance-text)
 
 Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. All replacements are cached so there's no downside in using it as filter.
 
