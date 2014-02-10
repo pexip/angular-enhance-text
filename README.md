@@ -16,21 +16,21 @@ Current features include:
 
 
 ## How to use
-Make sure that angular and angular-sanitize is installed:
+Make sure that angular and angular-sanitize is installed and link in your website:
 
     bower install angular angular-sanitize
 
-Install it via bower:
+Then install angular-enhance-text via bower and link it in your website:
     
     bower install angular-enhance-text
 
-Then inject it into your app like:
+Finally inject it into your app like:
     
 ```javascript
 angular.module('MyApp', ['bernhardposselt.enhancetext']);
 ```
 
-Then the filter is available in your templates like:
+The filter is available in your templates by using:
 
 ```html
 <div ng-bind-html="SomeText | enhanceText"></div>
