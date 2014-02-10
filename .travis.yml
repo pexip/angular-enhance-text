@@ -2,8 +2,10 @@ language: node_js
 node_js:
   - "0.10"
 
-script:
-  - sudo apt-get install phantomjs
+install:
+  - npm install -g grunt
   - npm install
+
+script:
   - grunt
   - grunt ci
