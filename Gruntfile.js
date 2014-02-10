@@ -79,7 +79,15 @@ module.exports = function(grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true,
                 browsers: ['PhantomJS'],
-                reporters: ['progress']
+                preprocessors: {
+                    'app/**/*.js': 'coverage'
+                },
+                coverageReporter: {
+                    type: 'lcov',
+                    dir: 'coverage/',
+                    file: 'coverage.lcov'
+                },
+                reporters: ['coverage']
             }
         }
 
