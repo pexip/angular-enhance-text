@@ -7,8 +7,9 @@ Enhances text by replacing commonly used links and characters, e.g. directly emb
 
 Current features include: 
 
-* Replacing smilies
-* Replacing links
+* Embedding smilies
+* Embedding links
+* Embedding images
 * Sanitize output
 
 Planned features will include:
@@ -46,44 +47,28 @@ To configure the provider, inject the provider in your config method:
 ```javascript
 angular.module('MyApp', ['bernhardposselt.enhancetext']).
     config(['enhanceTextFilterProvider'], function (enhanceTextFilterProvider) {
-        enhanceTextFilterProvider.setSmilies({
-            ':)': '/img/smiley.png',
-            ';)': '/img/smiley2.png'
+        enhanceTextFilterProvider.options({
+            // your options in here
         });
     });
 ```
 
-Then call the methods below to tweak it to your likings
-
-
-### Set smileys
-
-Pass in an object that has the smilie as key and the path to the image as value:
+The following options are available:
 
 ```javascript
-enhanceTextFilterProvider.setSmilies({
-    ':)': '/img/smiley.png',
-    ';)': '/img/smiley2.png'
+enhanceTextFilterProvider.setOptions({
+    cache: true,  // stores replaced images
+    newLineToBr: true,  // replaces \n with /<br/>
+    embedLinks: true,  // replaces links with Html links
+    embeddedLinkTarget: '_blank',  // sets the target of all replaced links
+    embedImages: true,  // replaces links to images with Html images
+    embeddedImagesHeight: undefined,  // if given will be used to set height of embedded images
+    embeddedImagesWidth: undefined,  // if given will be used to set width of embedded images
+    embedVideos: true,  // replaces links to videos with Html videos
+    embedYoutube: true,  // replaces links to youtube videos with iframed youtube videos
+    smilies: {  // key = smilie, value = path to smilie
+        ':)': '/img/smiley.png',
+        ';)': '/img/smiley2.png'
+    }
 });
-```
-
-### Disable caching
-By default, caching is enabled. Should you not want that use:
-
-```javascript
-enhanceTextFilterProvider.enableCaching(false);
-```
-
-### Disable new lines
-By default, replacing newlines is enabled. That means every \n is replaced with a \<br/> Should you not want that use:
-
-```javascript
-enhanceTextFilterProvider.enableReplaceNewLines(false);
-```
-
-### Disable replacing Links
-By default, replacing links is enabled. That means every https://somelink.com is replaced with a \<a href="https://somelink.com"/>https://somelink.com \</a>. Should you not want that use:
-
-```javascript
-enhanceTextFilterProvider.enableReplaceLinks(false);
 ```

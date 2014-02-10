@@ -11,37 +11,33 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
 
-    var smilies = {},
-        textCache = {},
-        isCaching = true,
-        replaceNewLines = true,
-        replaceLinks = true;
+    var options = {
+            cache: true,
+            newLineToBr: true,
+            embedLinks: true,
+            embeddedLinkTarget: '_blank',
+            embedImages: true,
+            embeddedImagesHeight: undefined,
+            embeddedImagesWidth: undefined,
+            embedVideos: true,
+            embedYoutube: true,
+            smilies: {}
+        },
+        textCache = {};
 
-    this.setSmilies = function (smiliesConfig) {
-        smilies = smiliesConfig;
+    this.setOptions = function (customOptions) {
+        angular.extend(options, customOptions);
     };
 
-    this.enableCaching = function (isEnabled) {
-        isCaching = isEnabled;
-    };
-
-    this.enableReplaceNewLines = function (isEnabled) {
-        replaceNewLines = isEnabled;
-    };
-
-    this.enableReplaceLinks = function (isEnabled) {
-        replaceLinks = isEnabled;
-    };
-
-    this.$get = ['$sanitize', '$filter', '$sce', function ($sanitize, $filter, $sce) {
+    this.$get = ['$sanitize', '$sce', function ($sanitize, $sce) {
         return function (text) {
 
             var originalText = text;
 
             // hit cache first before replacing
-            if (isCaching) {
+            if (options.cache) {
                 var cachedResult = textCache[text];
-                if (cachedResult !== undefined) {
+                if (angular.isDefined(cachedResult)) {
                     return cachedResult;
                 }
             }
@@ -50,10 +46,10 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             text = $sanitize(text);
 
             // loop over smilies and replace them in the text
-            var smileyKeys = Object.keys(smilies);
+            var smileyKeys = Object.keys(options.smilies);
             for (i=0; i<smileyKeys.length; i++) {
                 var smiley = smileyKeys[i];
-                var smileyKeyPath = smilies[smiley];
+                var smileyKeyPath = options.smilies[smiley];
                 var replacement = '<img alt="' + smiley + '" src="' + 
                     smileyKeyPath + '"/>';
                 
@@ -70,14 +66,39 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
             }
 
+            // replace images
+            if (options.embedImages) {
+                var imgRegex = /((?:ftp|https?):\/\/.*\.(?:gif|jpg|jpeg|tiff|png))$/gi;
+                var dimensions = '';
+
+                if (angular.isDefined(options.embeddedImagesHeight)) {
+                    dimensions += 'height="' + options.embeddedImagesHeight + '" ';
+                }
+
+                if (angular.isDefined(options.embeddedImagesWidth)) {
+                    dimensions += 'width="' + options.embeddedImagesWidth + '" ';
+                }
+
+                var img = '<a href="$1" target="' + options.embeddedLinkTarget + 
+                    '">' + '<img ' + dimensions + 'alt="image" src="$1"/></a>';
+                text = text.replace(imgRegex, img);
+            }
+
             // replace newlines with breaks
-            if (replaceNewLines) {
-                text = $filter('newLine')(text);
+            if (options.newLineToBr) {
+                text = text.replace('/\n/g', '<br/>').replace('&#10;', '<br/>');
             }
 
             // replace links
-            if (replaceLinks) {
-                text = $filter('unsanitizedLink')(text, '_blank');
+            if (options.embedLinks) {
+                var linkRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                text = text.replace(linkRegex, function() {
+                  return  arguments[1] ? 
+                          arguments[0] : 
+                          '<a target="' + options.embeddedLinkTarget + 
+                          '" href="'+ arguments[3] + '">' + 
+                          arguments[3] + '</a>';
+                });
             }
 
             // trust result to able to use it in ng-bind-html
@@ -85,7 +106,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
 
             // cache result
-            if (isCaching) {
+            if (options.cache) {
                 textCache[originalText] = text;
             }
 

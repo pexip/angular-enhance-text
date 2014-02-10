@@ -11,37 +11,33 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
 
-    var smilies = {},
-        textCache = {},
-        isCaching = true,
-        replaceNewLines = true,
-        replaceLinks = true;
+    var options = {
+            cache: true,
+            newLineToBr: true,
+            embedLinks: true,
+            embeddedLinkTarget: '_blank',
+            embedImages: true,
+            embeddedImagesHeight: undefined,
+            embeddedImagesWidth: undefined,
+            embedVideos: true,
+            embedYoutube: true,
+            smilies: {}
+        },
+        textCache = {};
 
-    this.setSmilies = function (smiliesConfig) {
-        smilies = smiliesConfig;
+    this.setOptions = function (customOptions) {
+        angular.extend(options, customOptions);
     };
 
-    this.enableCaching = function (isEnabled) {
-        isCaching = isEnabled;
-    };
-
-    this.enableReplaceNewLines = function (isEnabled) {
-        replaceNewLines = isEnabled;
-    };
-
-    this.enableReplaceLinks = function (isEnabled) {
-        replaceLinks = isEnabled;
-    };
-
-    this.$get = ['$sanitize', '$filter', '$sce', function ($sanitize, $filter, $sce) {
+    this.$get = ['$sanitize', '$sce', function ($sanitize, $sce) {
         return function (text) {
 
             var originalText = text;
 
             // hit cache first before replacing
-            if (isCaching) {
+            if (options.cache) {
                 var cachedResult = textCache[text];
-                if (cachedResult !== undefined) {
+                if (angular.isDefined(cachedResult)) {
                     return cachedResult;
                 }
             }
@@ -50,10 +46,10 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             text = $sanitize(text);
 
             // loop over smilies and replace them in the text
-            var smileyKeys = Object.keys(smilies);
+            var smileyKeys = Object.keys(options.smilies);
             for (i=0; i<smileyKeys.length; i++) {
                 var smiley = smileyKeys[i];
-                var smileyKeyPath = smilies[smiley];
+                var smileyKeyPath = options.smilies[smiley];
                 var replacement = '<img alt="' + smiley + '" src="' + 
                     smileyKeyPath + '"/>';
                 
@@ -70,14 +66,39 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
             }
 
+            // replace images
+            if (options.embedImages) {
+                var imgRegex = /((?:ftp|https?):\/\/.*\.(?:gif|jpg|jpeg|tiff|png))$/gi;
+                var dimensions = '';
+
+                if (angular.isDefined(options.embeddedImagesHeight)) {
+                    dimensions += 'height="' + options.embeddedImagesHeight + '" ';
+                }
+
+                if (angular.isDefined(options.embeddedImagesWidth)) {
+                    dimensions += 'width="' + options.embeddedImagesWidth + '" ';
+                }
+
+                var img = '<a href="$1" target="' + options.embeddedLinkTarget + 
+                    '">' + '<img ' + dimensions + 'alt="image" src="$1"/></a>';
+                text = text.replace(imgRegex, img);
+            }
+
             // replace newlines with breaks
-            if (replaceNewLines) {
-                text = $filter('newLine')(text);
+            if (options.newLineToBr) {
+                text = text.replace('/\n/g', '<br/>').replace('&#10;', '<br/>');
             }
 
             // replace links
-            if (replaceLinks) {
-                text = $filter('unsanitizedLink')(text, '_blank');
+            if (options.embedLinks) {
+                var linkRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                text = text.replace(linkRegex, function() {
+                  return  arguments[1] ? 
+                          arguments[0] : 
+                          '<a target="' + options.embeddedLinkTarget + 
+                          '" href="'+ arguments[3] + '">' + 
+                          arguments[3] + '</a>';
+                });
             }
 
             // trust result to able to use it in ng-bind-html
@@ -85,67 +106,13 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
 
             // cache result
-            if (isCaching) {
+            if (options.cache) {
                 textCache[originalText] = text;
             }
 
             return text;
         };
     }];
-});
-app.filter('newLine', function () {
-    return function (text) {
-        return text.replace('/\n/g', '<br/>').replace('&#10;', '<br/>');
-    };
-});
-// taken from https://github.com/angular/angular.js/blob/master/src/ngSanitize/filter/linky.js
-// without the sanitize part because the enhance text part already sanitizes it
-
-app.filter('unsanitizedLink', function() {
-    var LINKY_URL_REGEXP = /((ftp|https?):\/\/|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>]/,
-        MAILTO_REGEXP = /^mailto:/;
-
-    return function(text, target) {
-        if (!text) return text;
-        var match;
-        var raw = text;
-        var html = [];
-        var url;
-        var i;
-        while ((match = raw.match(LINKY_URL_REGEXP))) {
-            // We can not end in these as they are sometimes found at the end of the sentence
-            url = match[0];
-            // if we did not match ftp/http/mailto then assume mailto
-            if (match[2] == match[3]) url = 'mailto:' + url;
-            i = match.index;
-            addText(raw.substr(0, i));
-            addLink(url, match[0].replace(MAILTO_REGEXP, ''));
-            raw = raw.substring(i + match[0].length);
-        }
-        addText(raw);
-        return html.join('');
-
-        function addText(text) {
-            if (!text) {
-                return;
-            }
-            html.push(text);
-        }
-
-        function addLink(url, text) {
-            html.push('<a ');
-            if (angular.isDefined(target)) {
-                html.push('target="');
-                html.push(target);
-                html.push('" ');
-            }
-            html.push('href="');
-            html.push(url);
-            html.push('">');
-            addText(text);
-            html.push('</a>');
-        }
-    };
 });
 
 })(angular, undefined);
