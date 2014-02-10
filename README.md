@@ -6,6 +6,8 @@
 
 Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. All replacements are cached so there's no downside in using it as filter.
 
+The intended usecase is web chatting applications, that want to enrich the sent text by directly embedding embeddable content.
+
 Current features include: 
 
 * Embed smilies
