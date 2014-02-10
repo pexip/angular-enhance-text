@@ -12,13 +12,14 @@ Planned features will include:
 
 * Replacing links with HTML links
 * Replacing YouTube Links with embeddable iframes
-* Make smiley replacment more robust
 * Replacing links that end in known extensions for pictures and videos with previews and links to it
-* Provide details on how to prevent XSS
 
 ## How to use
+Make sure that angular and angular-sanitize is installed:
 
-Install it via bower
+    bower install angular angular-sanitize
+
+Install it via bower:
     
     bower install angular-enhance-text
 
@@ -31,9 +32,11 @@ angular.module('MyApp', ['bernhardposselt.enhancetext']);
 Then the filter is available in your templates like:
 
 ```html
-{{ SomeText | enhanceText }}
+<div ng-bind-html="SomeText | enhanceText"></div>
 ```
 
+All content to the filter is explicitely sanitized and marked as safe.
+.
 ## Configuration
 
 To configure the provider, inject the provider in your config method:
@@ -51,7 +54,7 @@ angular.module('MyApp', ['bernhardposselt.enhancetext']).
 Then call the methods below to tweak it to your likings
 
 
-### Set Smileys
+### Set smileys
 
 Pass in an object that has the smilie as key and the path to the image as value:
 
@@ -62,9 +65,23 @@ enhanceTextFilterProvider.setSmilies({
 });
 ```
 
-### Disable Caching
+### Disable caching
 By default, caching is enabled. Should you not want that use:
 
 ```javascript
 enhanceTextFilterProvider.enableCaching(false);
+```
+
+### Disable new lines
+By default, replacing newlines is enabled. That means every \n is replaced with a <br/> Should you not want that use:
+
+```javascript
+enhanceTextFilterProvider.enableReplaceNewLines(false);
+```
+
+### Disable replacing Links
+By default, replacing links is enabled. That means every https://somelink.com is replaced with a <a href="https://somelink.com"/>https://somelink.com</a>. Should you not want that use:
+
+```javascript
+enhanceTextFilterProvider.enableReplaceLinks(false);
 ```

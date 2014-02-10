@@ -3,11 +3,19 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING file.
  */
-var app = angular.module('bernhardposselt.enhancetext', [])
+var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 .provider('enhanceTextFilter', function () {
+
+    // taken from https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+    function escapeRegExp(str) {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+
     var smilies = {},
+        textCache = {},
         isCaching = true,
-        textCache = {};
+        replaceNewLines = true,
+        replaceLinks = true;
 
     this.setSmilies = function (smiliesConfig) {
         smilies = smiliesConfig;
@@ -17,7 +25,15 @@ var app = angular.module('bernhardposselt.enhancetext', [])
         isCaching = isEnabled;
     };
 
-    this.$get = function () {
+    this.enableReplaceNewLines = function (isEnabled) {
+        replaceNewLines = isEnabled;
+    };
+
+    this.enableReplaceLinks = function (isEnabled) {
+        replaceLinks = isEnabled;
+    };
+
+    this.$get = ['$sanitize', '$filter', '$sce', function ($sanitize, $filter, $sce) {
         return function (text) {
 
             var originalText = text;
@@ -30,6 +46,9 @@ var app = angular.module('bernhardposselt.enhancetext', [])
                 }
             }
 
+            // sanitize text
+            text = $sanitize(text);
+
             // loop over smilies and replace them in the text
             var smileyKeys = Object.keys(smilies);
             for (i=0; i<smileyKeys.length; i++) {
@@ -38,8 +57,32 @@ var app = angular.module('bernhardposselt.enhancetext', [])
                 var replacement = '<img alt="' + smiley + '" src="' + 
                     smileyKeyPath + '"/>';
                 
-                text = text.replace(smiley, replacement);
+                var middleSmiley = " " + escapeRegExp(smiley) + " ";
+                text = text.replace(new RegExp(middleSmiley), " " + replacement + " ");
+
+                var onlySmiley = "^" + escapeRegExp(smiley) + "$";
+                text = text.replace(new RegExp(onlySmiley), replacement);
+
+                var endSmiley = " " + escapeRegExp(smiley) + "$";
+                text = text.replace(new RegExp(endSmiley), " " + replacement);
+
+                var lineBreakSmiley = " " + escapeRegExp(smiley) + "&#10;";
+                text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
             }
+
+            // replace newlines with breaks
+            if (replaceNewLines) {
+                text = $filter('newLine')(text);
+            }
+
+            // replace links
+            if (replaceLinks) {
+                text = $filter('unsanitizedLink')(text);
+            }
+
+            // trust result to able to use it in ng-bind-html
+            $sce.trustAsHtml(text);
+
 
             // cache result
             if (isCaching) {
@@ -48,5 +91,5 @@ var app = angular.module('bernhardposselt.enhancetext', [])
 
             return text;
         };
-    };
+    }];
 });
