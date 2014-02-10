@@ -54,6 +54,7 @@ module.exports = function(grunt) {
             all: [
                 '**/*.js',
                 '!build/**/*',
+                '!coverage/**/*',
                 '!bower_components/**/*',
                 '!node_modules/**/*'
             ],
@@ -83,7 +84,7 @@ module.exports = function(grunt) {
                     'app/**/*.js': 'coverage'
                 },
                 coverageReporter: {
-                    type: 'lcov',
+                    type: 'lcovonly',
                     dir: 'coverage/',
                     file: 'coverage.lcov'
                 },
