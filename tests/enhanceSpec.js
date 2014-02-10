@@ -144,9 +144,9 @@
     it('should replace images', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://google.de/test.png')).
+        expect(filter('hey http://google.de/test.png ho')).
             toBe('hey <a href="http://google.de/test.png" target="_blank">' +
-                '<img alt="image" src="http://google.de/test.png"/></a>');
+                '<img alt="image" src="http://google.de/test.png"/></a> ho');
     }));
 
 
@@ -174,5 +174,106 @@
                 '<img height="300" width="200" alt="image" ' + 
                 'src="http://google.de/test.png"/></a>');
     }));
-});
 
+
+    it('should not embed images if turned off', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embedImages: false,
+            embedLinks: false
+        });
+        expect(filter('hey http://google.de/test.png')).
+            toBe('hey http://google.de/test.png');
+    }));
+
+
+    it('should not embed videos if turned off', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embedVideos: false,
+            embedLinks: false
+        });
+        expect(filter('hey http://google.de/test.webm')).
+            toBe('hey http://google.de/test.webm');
+    }));
+
+
+    it('should embed videos', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        expect(filter('hey http://google.de/test.webm ')).
+            toBe('hey <video src="http://google.de/test.webm"></video> ');
+    }));
+
+
+    it('should replace videos and set height', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embeddedVideosHeight: 300
+        });
+
+        expect(filter('hey http://google.de/test.webm')).
+            toBe('hey <video height="300" src="http://google.de/test.webm"></video>');
+    }));
+
+
+    it('should replace videos and set width', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embeddedVideosHeight: 300,
+            embeddedVideosWidth: 200
+        });
+
+        expect(filter('hey http://google.de/test.webm')).
+            toBe('hey <video height="300" width="200"' + 
+                ' src="http://google.de/test.webm"></video>');
+    }));
+
+
+    it('should not embed youtube if turned off', inject(function ($filter) {
+        provider.setOptions({
+            embedLinks: false,
+            embedYoutube: false
+        });
+        var filter = $filter('enhanceText');
+
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY')).
+            toBe('hey http://www.youtube.com/watch?v=ksM520q4LEY');
+    }));
+
+
+    it('should embed youtube', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+            toBe('hey <iframe ' + 
+                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
+                'frameborder="0" allowfullscreen></iframe> ');
+    }));
+
+
+    it('should replace Youtube and set height', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embeddedYoutubeHeight: 300
+        });
+
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+            toBe('hey <iframe height="300" ' + 
+                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
+                'frameborder="0" allowfullscreen></iframe> ');
+    }));
+
+
+    it('should replace Youtube and set width', inject(function ($filter) {
+        var filter = $filter('enhanceText');
+        provider.setOptions({
+            embeddedYoutubeHeight: 300,
+            embeddedYoutubeWidth: 200
+        });
+
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+            toBe('hey <iframe height="300" width="200" ' + 
+                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
+                'frameborder="0" allowfullscreen></iframe> ');
+    }));
+});

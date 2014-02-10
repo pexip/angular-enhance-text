@@ -20,7 +20,11 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             embeddedImagesHeight: undefined,
             embeddedImagesWidth: undefined,
             embedVideos: true,
+            embeddedVideosHeight: undefined,
+            embeddedVideosWidth: undefined,
             embedYoutube: true,
+            embeddedYoutubeHeight: undefined,
+            embeddedYoutubeWidth: undefined,
             smilies: {}
         },
         textCache = {};
@@ -66,22 +70,58 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
             }
 
-            // replace images
+            // embed images
             if (options.embedImages) {
-                var imgRegex = /((?:ftp|https?):\/\/.*\.(?:gif|jpg|jpeg|tiff|png))$/gi;
-                var dimensions = '';
+                var imgRegex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+                var imgDimensions = '';
 
                 if (angular.isDefined(options.embeddedImagesHeight)) {
-                    dimensions += 'height="' + options.embeddedImagesHeight + '" ';
+                    imgDimensions += 'height="' + options.embeddedImagesHeight + '" ';
                 }
 
                 if (angular.isDefined(options.embeddedImagesWidth)) {
-                    dimensions += 'width="' + options.embeddedImagesWidth + '" ';
+                    imgDimensions += 'width="' + options.embeddedImagesWidth + '" ';
                 }
 
                 var img = '<a href="$1" target="' + options.embeddedLinkTarget + 
-                    '">' + '<img ' + dimensions + 'alt="image" src="$1"/></a>';
+                    '">' + '<img ' + imgDimensions + 'alt="image" src="$1"/></a>';
                 text = text.replace(imgRegex, img);
+            }
+
+            // embed videos
+            if (options.embedVideos) {
+                var vidRegex = /((?:https?):\/\/\S*\.(?:ogv|webm))/gi;
+                var vidDimensions = '';
+
+                if (angular.isDefined(options.embeddedVideosHeight)) {
+                    vidDimensions += 'height="' + options.embeddedVideosHeight + '" ';
+                }
+
+                if (angular.isDefined(options.embeddedVideosWidth)) {
+                    vidDimensions += 'width="' + options.embeddedVideosWidth + '" ';
+                }
+
+                var vid = '<video ' + vidDimensions + 'src="$1"></video>';
+                text = text.replace(vidRegex, vid);
+            }
+
+            // embed youtube
+            if (options.embedYoutube) {
+                var ytRegex = /(?:https?):\/\/(?:www\.)?youtube.com\/\S*watch\?v=([a-zA-Z0-9]*)\S*/gi;
+                var ytDimensions = '';
+
+                if (angular.isDefined(options.embeddedYoutubeHeight)) {
+                    ytDimensions += 'height="' + options.embeddedYoutubeHeight + '" ';
+                }
+
+                if (angular.isDefined(options.embeddedYoutubeWidth)) {
+                    ytDimensions += 'width="' + options.embeddedYoutubeWidth + '" ';
+                }
+
+                var yt = '<iframe ' + ytDimensions + 
+                    'src="https://www.youtube.com/embed/$1" ' + 
+                    'frameborder="0" allowfullscreen></iframe>';
+                text = text.replace(ytRegex, yt);
             }
 
             // replace newlines with breaks

@@ -7,15 +7,13 @@ Enhances text by replacing commonly used links and characters, e.g. directly emb
 
 Current features include: 
 
-* Embedding smilies
-* Embedding links
-* Embedding images
+* Embed smilies
+* Embed links
+* Embed images (gif|jpg|jpeg|tiff|png|svg|webp)
+* Embed videos (ogv|webm)
+* Embed youtube videos
 * Sanitize output
 
-Planned features will include:
-
-* Replacing YouTube Links with embeddable iframes
-* Replacing links that end in known extensions for pictures and videos with previews and links to it
 
 ## How to use
 Make sure that angular and angular-sanitize is installed:
@@ -65,7 +63,11 @@ enhanceTextFilterProvider.setOptions({
     embeddedImagesHeight: undefined,  // if given will be used to set height of embedded images
     embeddedImagesWidth: undefined,  // if given will be used to set width of embedded images
     embedVideos: true,  // replaces links to videos with Html videos
+    embeddedVideosHeight: undefined,  // if given will be used to set height of embedded videos
+    embeddedVideosWidth: undefined,  // if given will be used to set width of embedded videos
     embedYoutube: true,  // replaces links to youtube videos with iframed youtube videos
+    embeddedYoutubeHeight: undefined,  // height of youtube video
+    embeddedYoutubeWidth: undefined,  // width of youtube video
     smilies: {  // key = smilie, value = path to smilie
         ':)': '/img/smiley.png',
         ';)': '/img/smiley2.png'
