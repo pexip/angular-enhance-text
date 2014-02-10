@@ -1,6 +1,6 @@
 {
   "name": "angular-enhance-text",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc.",
   "main": "build/angular-enhance-text.js",
   "directories": {
