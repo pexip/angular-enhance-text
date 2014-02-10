@@ -4,9 +4,9 @@
 [![Coverage Status](https://coveralls.io/repos/Raydiation/angular-enhance-text/badge.png?branch=master)](https://coveralls.io/r/Raydiation/angular-enhance-text?branch=master)
 [![Bower version](https://badge.fury.io/bo/angular-enhance-text.png)](http://badge.fury.io/bo/angular-enhance-text)
 
-Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. All replacements are cached so there's no downside in using it as filter.
+Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. This is useful for creating a web chat application. 
 
-The intended usecase is web chatting applications, that want to enrich the sent text by directly embedding embeddable content.
+All replacements are cached so there's no downside in using it as filter.
 
 Current features include: 
 
