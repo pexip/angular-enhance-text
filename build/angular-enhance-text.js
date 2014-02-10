@@ -6,15 +6,15 @@
 var app = angular.module('bernhardposselt.enhancetext', [])
 .provider('enhanceTextFilter', function () {
     var smilies = {},
-        cache = false,
+        isCaching = true,
         textCache = {};
 
     this.setSmilies = function (smiliesConfig) {
         smilies = smiliesConfig;
     };
 
-    this.setCache = function (isCaching) {
-        cache = isCaching;
+    this.enableCaching = function (isEnabled) {
+        isCaching = isEnabled;
     };
 
     this.$get = function () {
@@ -23,7 +23,7 @@ var app = angular.module('bernhardposselt.enhancetext', [])
             var originalText = text;
 
             // hit cache first before replacing
-            if (cache) {
+            if (isCaching) {
                 var cachedResult = textCache[text];
                 if (cachedResult !== undefined) {
                     return cachedResult;
@@ -42,7 +42,7 @@ var app = angular.module('bernhardposselt.enhancetext', [])
             }
 
             // cache result
-            if (cache) {
+            if (isCaching) {
                 textCache[originalText] = text;
             }
 

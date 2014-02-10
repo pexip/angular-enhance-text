@@ -52,3 +52,8 @@ Pass in an object that has the smilie as key and the path to the image as value:
         ':)': '/img/smiley.png',
         ';)': '/img/smiley2.png'
     });
+
+### Disable Caching
+By default, caching is enabled. Should you not want that use:
+
+    enhanceTextFilterProvider.enableCaching(false);

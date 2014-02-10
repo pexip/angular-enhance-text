@@ -11,7 +11,7 @@
     beforeEach(module('bernhardposselt.enhancetext', 
         function (enhanceTextFilterProvider) {
             provider = enhanceTextFilterProvider;
-            provider.setCache(false);
+            provider.enableCaching(false);
         })
     );
 
@@ -31,7 +31,7 @@
     }));
 
     it('should not fail when caching is activated', inject(function ($filter) {
-        provider.setCache(true);
+        provider.enableCaching(true);
         var filter = $filter('enhanceText');
         expect(filter('This is a test')).toBe('This is a test');
         expect(filter('This is a test 2')).toBe('This is a test 2');
