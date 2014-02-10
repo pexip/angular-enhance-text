@@ -37,6 +37,9 @@ The filter is available in your templates by using:
 
 All content to the filter is explicitely sanitized and marked as safe.
 .
+
+For a complete example see the examples folder.
+
 ## Configuration
 
 To configure the provider, inject the provider in your config method:
