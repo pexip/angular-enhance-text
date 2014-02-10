@@ -91,7 +91,6 @@ module.exports = function(grunt) {
                 reporters: ['coverage']
             }
         }
-
     });
 
     // make tasks available under simpler commands

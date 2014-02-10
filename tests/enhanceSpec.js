@@ -20,7 +20,8 @@
 
     it('should not change a normal string', inject(function($filter) {  
         var filter = $filter('enhanceText');
-        expect(filter('This is a test')).toBe('This is a test');
+        expect(filter('This is a test').$$unwrapTrustedValue()).
+            toBe('This is a test');
     }));
 
 
@@ -29,7 +30,8 @@
             newLineToBr: false
         });
         var filter = $filter('enhanceText');
-        expect(filter('This is a test\n')).toBe('This is a test&#10;');
+        expect(filter('This is a test\n').$$unwrapTrustedValue()).
+            toBe('This is a test&#10;');
     }));
 
 
@@ -41,7 +43,7 @@
         });
         
         var filter = $filter('enhanceText');
-        expect(filter('This is a test :) hehe')).
+        expect(filter('This is a test :) hehe').$$unwrapTrustedValue()).
             toBe('This is a test <img alt=":)" src="/test/smile.png"/> hehe');
     }));
 
@@ -54,7 +56,7 @@
         });
         
         var filter = $filter('enhanceText');
-        expect(filter('This is a test s:)')).
+        expect(filter('This is a test s:)').$$unwrapTrustedValue()).
             toBe('This is a test s:)');
     }));
 
@@ -69,7 +71,7 @@
         });
         
         var filter = $filter('enhanceText');
-        expect(filter(':)')).
+        expect(filter(':)').$$unwrapTrustedValue()).
             toBe('<img alt=":)" src="/test/smile.png"/>');
     }));
 
@@ -84,7 +86,7 @@
         });
         
         var filter = $filter('enhanceText');
-        expect(filter('hey :)')).
+        expect(filter('hey :)').$$unwrapTrustedValue()).
             toBe('hey <img alt=":)" src="/test/smile.png"/>');
     }));
 
@@ -99,7 +101,7 @@
         });
         
         var filter = $filter('enhanceText');
-        expect(filter('hey :)\nsome more')).
+        expect(filter('hey :)\nsome more').$$unwrapTrustedValue()).
             toBe('hey <img alt=":)" src="/test/smile.png"/><br/>some more');
     }));
 
@@ -109,16 +111,19 @@
             cache: true
         });
         var filter = $filter('enhanceText');
-        expect(filter('This is a test')).toBe('This is a test');
-        expect(filter('This is a test 2')).toBe('This is a test 2');
-        expect(filter('This is a test')).toBe('This is a test');
+        expect(filter('This is a test').$$unwrapTrustedValue()).
+            toBe('This is a test');
+        expect(filter('This is a test 2').$$unwrapTrustedValue()).
+            toBe('This is a test 2');
+        expect(filter('This is a test').$$unwrapTrustedValue()).
+            toBe('This is a test');
     }));
 
 
     it('should sanitize input before enhancing', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey :)\nsome more<script>')).
+        expect(filter('hey :)\nsome more<script>').$$unwrapTrustedValue()).
             toBe('hey :)<br/>some more');
     }));
 
@@ -126,7 +131,7 @@
     it('should create links', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://google.de')).
+        expect(filter('hey http://google.de').$$unwrapTrustedValue()).
             toBe('hey <a target="_blank" href="http://google.de">http://google.de</a>');
     }));
 
@@ -137,14 +142,16 @@
             embedLinks: false
         });
 
-        expect(filter('hey http://google.de')).toBe('hey http://google.de');
+        expect(filter('hey http://google.de').$$unwrapTrustedValue()).
+            toBe('hey http://google.de');
     }));
 
 
     it('should replace images', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://google.de/test.png ho')).
+        expect(filter('hey http://google.de/test.png ho').
+            $$unwrapTrustedValue()).
             toBe('hey <a href="http://google.de/test.png" target="_blank">' +
                 '<img alt="image" src="http://google.de/test.png"/></a> ho');
     }));
@@ -156,7 +163,7 @@
             embeddedImagesHeight: 300
         });
 
-        expect(filter('hey http://google.de/test.png')).
+        expect(filter('hey http://google.de/test.png').$$unwrapTrustedValue()).
             toBe('hey <a href="http://google.de/test.png" target="_blank">' + 
                 '<img height="300" alt="image" src="http://google.de/test.png"/></a>');
     }));
@@ -169,7 +176,7 @@
             embeddedImagesWidth: 200
         });
 
-        expect(filter('hey http://google.de/test.png')).
+        expect(filter('hey http://google.de/test.png').$$unwrapTrustedValue()).
             toBe('hey <a href="http://google.de/test.png" target="_blank">' + 
                 '<img height="300" width="200" alt="image" ' + 
                 'src="http://google.de/test.png"/></a>');
@@ -182,7 +189,7 @@
             embedImages: false,
             embedLinks: false
         });
-        expect(filter('hey http://google.de/test.png')).
+        expect(filter('hey http://google.de/test.png').$$unwrapTrustedValue()).
             toBe('hey http://google.de/test.png');
     }));
 
@@ -193,14 +200,14 @@
             embedVideos: false,
             embedLinks: false
         });
-        expect(filter('hey http://google.de/test.webm')).
+        expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
             toBe('hey http://google.de/test.webm');
     }));
 
 
     it('should embed videos', inject(function ($filter) {
         var filter = $filter('enhanceText');
-        expect(filter('hey http://google.de/test.webm ')).
+        expect(filter('hey http://google.de/test.webm ').$$unwrapTrustedValue()).
             toBe('hey <video src="http://google.de/test.webm"></video> ');
     }));
 
@@ -211,7 +218,7 @@
             embeddedVideosHeight: 300
         });
 
-        expect(filter('hey http://google.de/test.webm')).
+        expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
             toBe('hey <video height="300" src="http://google.de/test.webm"></video>');
     }));
 
@@ -223,7 +230,7 @@
             embeddedVideosWidth: 200
         });
 
-        expect(filter('hey http://google.de/test.webm')).
+        expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
             toBe('hey <video height="300" width="200"' + 
                 ' src="http://google.de/test.webm"></video>');
     }));
@@ -236,7 +243,7 @@
         });
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY')).
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY').$$unwrapTrustedValue()).
             toBe('hey http://www.youtube.com/watch?v=ksM520q4LEY');
     }));
 
@@ -244,7 +251,7 @@
     it('should embed youtube', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
             toBe('hey <iframe ' + 
                 'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
                 'frameborder="0" allowfullscreen></iframe> ');
@@ -257,7 +264,7 @@
             embeddedYoutubeHeight: 300
         });
 
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
             toBe('hey <iframe height="300" ' + 
                 'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
                 'frameborder="0" allowfullscreen></iframe> ');
@@ -271,7 +278,7 @@
             embeddedYoutubeWidth: 200
         });
 
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ')).
+        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
             toBe('hey <iframe height="300" width="200" ' + 
                 'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
                 'frameborder="0" allowfullscreen></iframe> ');

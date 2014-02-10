@@ -64,7 +64,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             // loop over smilies and replace them in the text
             var smileyKeys = Object.keys(options.smilies);
-            for (i=0; i<smileyKeys.length; i++) {
+            for (var i=0; i<smileyKeys.length; i++) {
                 var smiley = smileyKeys[i];
                 var smileyKeyPath = options.smilies[smiley];
                 var replacement = '<img alt="' + smiley + '" src="' + 
@@ -134,8 +134,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             }
 
             // trust result to able to use it in ng-bind-html
-            $sce.trustAsHtml(text);
-
+            text = $sce.trustAsHtml(text);
 
             // cache result
             if (options.cache) {
@@ -145,6 +144,8 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             return text;
         };
     }];
+
+
 });
 
 })(angular, undefined);

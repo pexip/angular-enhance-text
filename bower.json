@@ -21,7 +21,8 @@
     "Gruntfile.js",
     "karma.conf.js",
     "test",
-    "tests"
+    "tests",
+    "examples"
   ],
   "dependencies": {
     "angular": "~1.2.12",

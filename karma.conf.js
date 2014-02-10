@@ -18,7 +18,6 @@ module.exports = function(config) {
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'app/app.js',
-      'app/filters/**/*.js',
       'tests/**/*Spec.js'
     ],
 

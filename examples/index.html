@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="Chat">
+<head>
+    <title>Angular-Enhance-Text Example</title>
+    <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="../build/angular-enhance-text.js"></script>
+    <script type="text/javascript">
+        var app = angular.module('Chat', ['bernhardposselt.enhancetext']).
+            config(function (enhanceTextFilterProvider) {
+                enhanceTextFilterProvider.setOptions({
+                    embeddedYoutubeHeight: 315,
+                    embeddedYoutubeWidth: 560, 
+                    smilies: {
+                        ';)': './48px-Face-wink.svg'  // creative commons wikipedia http://commons.wikimedia.org/wiki/File:Face-wink.svg
+                    }
+                });
+            }).
+            controller('ChatController', function ($scope) {
+                $scope.messages = [
+                    "Hi have you seen this video yet ;) ? http://www.youtube.com/watch?v=ijAW3bskN0o"
+                ];
+                $scope.addMessage = function(keyCode) {
+                    if (keyCode === 13) {
+                        $scope.messages.push($scope.input);
+                        $scope.input = '';
+                    }
+                }
+            });
+    </script>
+</head>
+<body>
+
+<div ng-controller="ChatController">
+    <div>
+        <ul>
+            <li ng-repeat="message in messages">
+                <span ng-bind-html="message | enhanceText"></span>
+            </li>
+        </ul>
+    </div>
+    <form>
+        <textarea ng-model="input" ng-keyup="addMessage($event.keyCode)"></textarea>
+        <input type="submit" value="send" ng-click="addMessage(13)"/>
+    </form>
+</div>
+
+</body>
+</html>
