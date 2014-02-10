@@ -24,27 +24,27 @@ Install it via bower
 
 Then inject it into your app like:
     
-    ```javascript
-    angular.module('MyApp', ['bernhardposselt.enhancetext']);
+```javascript
+angular.module('MyApp', ['bernhardposselt.enhancetext']);
 
 Then the filter is available in your templates like:
 
-    ```html
-    {{ SomeText | enhanceText }}
+```html
+{{ SomeText | enhanceText }}
 
 
 ## Configuration
 
 To configure the provider, inject the provider in your config method:
     
-    ```javascript
-    angular.module('MyApp', ['bernhardposselt.enhancetext']).
-        config(['enhanceTextFilterProvider'], function (enhanceTextFilterProvider) {
-            enhanceTextFilterProvider.setSmilies({
-                ':)': '/img/smiley.png',
-                ';)': '/img/smiley2.png'
-            });
+```javascript
+angular.module('MyApp', ['bernhardposselt.enhancetext']).
+    config(['enhanceTextFilterProvider'], function (enhanceTextFilterProvider) {
+        enhanceTextFilterProvider.setSmilies({
+            ':)': '/img/smiley.png',
+            ';)': '/img/smiley2.png'
         });
+    });
 
 Then call the methods below to tweak it to your likings
 
@@ -53,14 +53,14 @@ Then call the methods below to tweak it to your likings
 
 Pass in an object that has the smilie as key and the path to the image as value:
 
-    ```javascript
-    enhanceTextFilterProvider.setSmilies({
-        ':)': '/img/smiley.png',
-        ';)': '/img/smiley2.png'
-    });
+```javascript
+enhanceTextFilterProvider.setSmilies({
+    ':)': '/img/smiley.png',
+    ';)': '/img/smiley2.png'
+});
 
 ### Disable Caching
 By default, caching is enabled. Should you not want that use:
 
-    ```javascript
-    enhanceTextFilterProvider.enableCaching(false);
+```javascript
+enhanceTextFilterProvider.enableCaching(false);
