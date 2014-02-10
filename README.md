@@ -1,6 +1,7 @@
 # Angular Enhance Text filter
 
 [![Build Status](https://travis-ci.org/Raydiation/angular-enhance-text.png?branch=master)](https://travis-ci.org/Raydiation/angular-enhance-text)
+
 Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. All replacements are cached so there's no downside in using it as filter.
 
 Current features include: 
@@ -21,7 +22,7 @@ Install it via bower
     
     bower install angular-enhance-text
 
-Then inject it into your app like
+Then inject it into your app like:
 
     angular.module('MyApp', ['bernhardposselt.enhancetext']);
 
