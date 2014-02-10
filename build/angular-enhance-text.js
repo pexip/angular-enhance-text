@@ -3,9 +3,32 @@
 'use strict';
 
 
-var app = angular.module('angular-replace-text', []);
-app.filter('bposselt-enhance', function (text) {
-    return text;
-});
+var app = angular.module('bernhardposselt.enhancetext', []).
+    provider('enhanceTextFilter', function () {
+        var smilies = {};
+
+        this.setSmilies = function (smiliesConfig) {
+            smilies = smiliesConfig;
+        };
+
+        this.$get = function () {
+            return function (text) {
+
+                // loop over smilies and replace them in the text
+                var smileyKeys = Object.keys(smilies);
+                for(i=0; i<smileyKeys.length; i++) {
+                    var smiley = smileyKeys[i];
+                    var smileyKeyPath = smilies[smiley];
+                    var replacement = '<img alt="' + smiley + '" src="' + 
+                        smileyKeyPath + '"/>';
+                    
+                    console.log(replacement);
+                    text.replace(smiley, replacement);
+                }
+
+                return text;
+            };
+        };
+    });
 
 })(angular, undefined);

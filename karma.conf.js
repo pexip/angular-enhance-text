@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path, that will be used to resolve files and exclude
-    basePath: '../',
+    basePath: '',
 
 
     // frameworks to use
@@ -16,8 +16,8 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'build/angular-enhance-text.min.js',
-      'tests/unit/**/*Spec.js'
+      'app/app.js',
+      'tests/**/*Spec.js'
     ],
 
 

@@ -72,11 +72,11 @@ module.exports = function(grunt) {
         },
         karma: {
             unit: {
-                configFile: 'tests/karma.conf.js',
+                configFile: 'karma.conf.js',
                 browsers: ['PhantomJS']
             },
             continuous: {
-                configFile: 'tests/karma.conf.js',
+                configFile: 'karma.conf.js',
                 singleRun: true,
                 browsers: ['PhantomJS'],
                 reporters: ['progress']
