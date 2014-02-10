@@ -41,11 +41,11 @@ To configure the provider, inject the provider in your config method:
     
 ```javascript
 angular.module('MyApp', ['bernhardposselt.enhancetext']).
-    config(['enhanceTextFilterProvider'], function (enhanceTextFilterProvider) {
-        enhanceTextFilterProvider.options({
-            // your options in here
-        });
+config(['enhanceTextFilterProvider', function (enhanceTextFilterProvider) {
+    enhanceTextFilterProvider.options({
+        // your options in here
     });
+}]);
 ```
 
 The following options are available:

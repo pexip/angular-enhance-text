@@ -33,6 +33,19 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
         angular.extend(options, customOptions);
     };
 
+    var getDimensionsHtml = function(height, width) {
+        var dimensions = '';
+        if (angular.isDefined(height)) {
+            dimensions += 'height="' + height + '" ';
+        }
+
+        if (angular.isDefined(width)) {
+            dimensions += 'width="' + width + '" ';
+        }
+
+        return dimensions;
+    };
+
     this.$get = ['$sanitize', '$sce', function ($sanitize, $sce) {
         return function (text) {
 
@@ -73,15 +86,8 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             // embed images
             if (options.embedImages) {
                 var imgRegex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-                var imgDimensions = '';
-
-                if (angular.isDefined(options.embeddedImagesHeight)) {
-                    imgDimensions += 'height="' + options.embeddedImagesHeight + '" ';
-                }
-
-                if (angular.isDefined(options.embeddedImagesWidth)) {
-                    imgDimensions += 'width="' + options.embeddedImagesWidth + '" ';
-                }
+                var imgDimensions = getDimensionsHtml(options.embeddedImagesHeight,
+                    options.embeddedImagesWidth);
 
                 var img = '<a href="$1" target="' + options.embeddedLinkTarget + 
                     '">' + '<img ' + imgDimensions + 'alt="image" src="$1"/></a>';
@@ -91,15 +97,8 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             // embed videos
             if (options.embedVideos) {
                 var vidRegex = /((?:https?):\/\/\S*\.(?:ogv|webm))/gi;
-                var vidDimensions = '';
-
-                if (angular.isDefined(options.embeddedVideosHeight)) {
-                    vidDimensions += 'height="' + options.embeddedVideosHeight + '" ';
-                }
-
-                if (angular.isDefined(options.embeddedVideosWidth)) {
-                    vidDimensions += 'width="' + options.embeddedVideosWidth + '" ';
-                }
+                var vidDimensions = getDimensionsHtml(options.embeddedVideosHeight,
+                    options.embeddedVideosWidth);
 
                 var vid = '<video ' + vidDimensions + 'src="$1"></video>';
                 text = text.replace(vidRegex, vid);
@@ -108,15 +107,8 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             // embed youtube
             if (options.embedYoutube) {
                 var ytRegex = /(?:https?):\/\/(?:www\.)?youtube.com\/\S*watch\?v=([a-zA-Z0-9]*)\S*/gi;
-                var ytDimensions = '';
-
-                if (angular.isDefined(options.embeddedYoutubeHeight)) {
-                    ytDimensions += 'height="' + options.embeddedYoutubeHeight + '" ';
-                }
-
-                if (angular.isDefined(options.embeddedYoutubeWidth)) {
-                    ytDimensions += 'width="' + options.embeddedYoutubeWidth + '" ';
-                }
+                var ytDimensions = getDimensionsHtml(options.embeddedYoutubeHeight,
+                    options.embeddedYoutubeWidth);
 
                 var yt = '<iframe ' + ytDimensions + 
                     'src="https://www.youtube.com/embed/$1" ' + 
