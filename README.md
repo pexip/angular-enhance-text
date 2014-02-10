@@ -1,6 +1,6 @@
 # Angular Enhance Text filter
 
-[![build state](https://travis-ci.org/Raydiation/angular-enhance-text.png)](https://travis-ci.org/Raydiation/angular-enhance-text)
+[![Build Status](https://travis-ci.org/Raydiation/angular-enhance-text.png?branch=master)](https://travis-ci.org/Raydiation/angular-enhance-text)
 
 ## How to use
 
