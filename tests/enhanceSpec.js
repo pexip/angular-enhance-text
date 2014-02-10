@@ -11,6 +11,7 @@
     beforeEach(module('bernhardposselt.enhancetext', 
         function (enhanceTextFilterProvider) {
             provider = enhanceTextFilterProvider;
+            provider.setCache(false);
         })
     );
 
@@ -27,6 +28,14 @@
         var filter = $filter('enhanceText');
         expect(filter('This is a test :)')).
             toBe('This is a test <img alt=":)" src="/test/smile.png"/>');
+    }));
+
+    it('should not fail when caching is activated', inject(function ($filter) {
+        provider.setCache(true);
+        var filter = $filter('enhanceText');
+        expect(filter('This is a test')).toBe('This is a test');
+        expect(filter('This is a test 2')).toBe('This is a test 2');
+        expect(filter('This is a test')).toBe('This is a test');
     }));
 
 });

@@ -1,6 +1,19 @@
 # Angular Enhance Text filter
 
 [![Build Status](https://travis-ci.org/Raydiation/angular-enhance-text.png?branch=master)](https://travis-ci.org/Raydiation/angular-enhance-text)
+Enhances text by replacing commonly used links and characters, e.g. directly embedding youtube videos, replacing smilies etc. All replacements are cached so there's no downside in using it as filter.
+
+Current features include: 
+
+* Replacing smilies
+
+Planned features will include:
+
+* Replacing links with HTML links
+* Replacing YouTube Links with embeddable iframes
+* Make smiley replacment more robust
+* Replacing links that end in known extensions for pictures and videos with previews and links to it
+* Provide details on how to prevent XSS
 
 ## How to use
 
