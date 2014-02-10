@@ -77,7 +77,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             // replace links
             if (replaceLinks) {
-                text = $filter('unsanitizedLink')(text);
+                text = $filter('unsanitizedLink')(text, '_blank');
             }
 
             // trust result to able to use it in ng-bind-html

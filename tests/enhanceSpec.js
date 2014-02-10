@@ -101,7 +101,7 @@
         var filter = $filter('enhanceText');
 
         expect(filter('hey http://google.de')).
-            toBe('hey <a href="http://google.de">http://google.de</a>');
+            toBe('hey <a target="_blank" href="http://google.de">http://google.de</a>');
     }));
 
     it('should not create links if disabled', inject(function ($filter) {
