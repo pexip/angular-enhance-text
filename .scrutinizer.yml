@@ -1,0 +1,5 @@
+tools:
+    js_hint: 
+        use_native_config: true
+        filter:
+            paths: ['app', 'tests']
