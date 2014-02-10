@@ -16,11 +16,7 @@ Current features include:
 
 
 ## How to use
-Make sure that angular and angular-sanitize is installed and link in your website:
-
-    bower install angular angular-sanitize
-
-Then install angular-enhance-text via bower and link it in your website:
+Install angular-enhance-text via bower and link it plus angular and angular-sanitize in your website:
     
     bower install angular-enhance-text
 
