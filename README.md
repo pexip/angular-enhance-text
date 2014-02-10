@@ -73,14 +73,14 @@ enhanceTextFilterProvider.enableCaching(false);
 ```
 
 ### Disable new lines
-By default, replacing newlines is enabled. That means every \n is replaced with a <br/> Should you not want that use:
+By default, replacing newlines is enabled. That means every \n is replaced with a \<br/> Should you not want that use:
 
 ```javascript
 enhanceTextFilterProvider.enableReplaceNewLines(false);
 ```
 
 ### Disable replacing Links
-By default, replacing links is enabled. That means every https://somelink.com is replaced with a <a href="https://somelink.com"/>https://somelink.com</a>. Should you not want that use:
+By default, replacing links is enabled. That means every https://somelink.com is replaced with a \<a href="https://somelink.com"/>https://somelink.com</a>. Should you not want that use:
 
 ```javascript
 enhanceTextFilterProvider.enableReplaceLinks(false);
