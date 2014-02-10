@@ -7,10 +7,11 @@ Enhances text by replacing commonly used links and characters, e.g. directly emb
 Current features include: 
 
 * Replacing smilies
+* Replacing links
+* Sanitize output
 
 Planned features will include:
 
-* Replacing links with HTML links
 * Replacing YouTube Links with embeddable iframes
 * Replacing links that end in known extensions for pictures and videos with previews and links to it
 
