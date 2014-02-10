@@ -53,7 +53,7 @@ The following options are available:
 ```javascript
 enhanceTextFilterProvider.setOptions({
     cache: true,  // stores replaced images
-    newLineToBr: true,  // replaces \n with /<br/>
+    newLineToBr: true,  // replaces \n with <br/>
     embedLinks: true,  // replaces links with Html links
     embeddedLinkTarget: '_blank',  // sets the target of all replaced links
     embedImages: true,  // replaces links to images with Html images
