@@ -81,7 +81,7 @@ module.exports = function(grunt) {
                 singleRun: true,
                 browsers: ['PhantomJS'],
                 preprocessors: {
-                    'app/**/*.js': 'coverage'
+                    'build/angular-enhance-text.js': 'coverage'
                 },
                 coverageReporter: {
                     type: 'lcovonly',
