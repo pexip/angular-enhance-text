@@ -100,7 +100,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 var vidDimensions = getDimensionsHtml(options.embeddedVideosHeight,
                     options.embeddedVideosWidth);
 
-                var vid = '<video ' + vidDimensions + 'src="$1"></video>';
+                var vid = '<video ' + vidDimensions + 'src="$1" controls></video>';
                 text = text.replace(vidRegex, vid);
             }
 

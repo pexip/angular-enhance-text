@@ -208,7 +208,7 @@
     it('should embed videos', inject(function ($filter) {
         var filter = $filter('enhanceText');
         expect(filter('hey http://google.de/test.webm ').$$unwrapTrustedValue()).
-            toBe('hey <video src="http://google.de/test.webm"></video> ');
+            toBe('hey <video src="http://google.de/test.webm" controls></video> ');
     }));
 
 
@@ -219,7 +219,7 @@
         });
 
         expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
-            toBe('hey <video height="300" src="http://google.de/test.webm"></video>');
+            toBe('hey <video height="300" src="http://google.de/test.webm" controls></video>');
     }));
 
 
@@ -232,7 +232,7 @@
 
         expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
             toBe('hey <video height="300" width="200"' + 
-                ' src="http://google.de/test.webm"></video>');
+                ' src="http://google.de/test.webm" controls></video>');
     }));
 
 
