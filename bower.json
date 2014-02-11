@@ -12,7 +12,7 @@
     "youtube",
     "pictures"
   ],
-  "license": "AGPLv3+",
+  "license": "LGPLv3+",
   "homepage": "https://github.com/Raydiation/angular-enhance-text",
   "ignore": [
     "**/.*",

@@ -17,6 +17,8 @@ Current features include:
 * Embed youtube videos
 * Sanitize output
 
+## License
+GNU Lesser General Public License 3+ (LGPLv3+)
 
 ## How to use
 Install **angular-enhance-text** via bower and link it plus **angular** and **angular-sanitize** in your website:
