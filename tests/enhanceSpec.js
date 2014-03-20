@@ -251,9 +251,9 @@
     it('should embed youtube', inject(function ($filter) {
         var filter = $filter('enhanceText');
 
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
+        expect(filter('hey http://www.youtube.com/watch?v=ks_520q4LEY ').$$unwrapTrustedValue()).
             toBe('hey <iframe ' + 
-                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
+                'src="https://www.youtube.com/embed/ks_520q4LEY" ' + 
                 'frameborder="0" allowfullscreen></iframe> ');
     }));
 

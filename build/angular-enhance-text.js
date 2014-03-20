@@ -106,7 +106,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             // embed youtube
             if (options.embedYoutube) {
-                var ytRegex = /(?:https?):\/\/(?:www\.)?youtube.com\/\S*watch\?v=([a-zA-Z0-9]*)\S*/gi;
+                var ytRegex = /(?:https?):\/\/(?:www\.)?youtube.com\/\S*watch\?v=([a-zA-Z0-9_-]*)\S*/gi;
                 var ytDimensions = getDimensionsHtml(options.embeddedYoutubeHeight,
                     options.embeddedYoutubeWidth);
 
