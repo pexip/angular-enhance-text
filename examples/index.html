@@ -18,11 +18,15 @@
             }).
             controller('ChatController', function ($scope) {
                 $scope.messages = [
-                    "Hi have you seen this video yet ;) ? http://www.youtube.com/watch?v=ijAW3bskN0o"
+                    {id: 0, msg: "Hi have you seen this video yet ;) ? http://www.youtube.com/watch?v=ijAW3bskN0o"}
                 ];
-                $scope.addMessage = function(keyCode) {
-                    if (keyCode === 13) {
-                        $scope.messages.push($scope.input);
+                $scope.addMessage = function(event) {
+                    if (event.keyCode === 13 && !event.shiftKey) {
+                        var msg = {
+                            id: $scope.messages.length,
+                            msg: $scope.input
+                        }
+                        $scope.messages.push(msg);
                         $scope.input = '';
                     }
                 }
@@ -35,12 +39,12 @@
     <div>
         <ul>
             <li ng-repeat="message in messages">
-                <span ng-bind-html="message | enhanceText"></span>
+                <span ng-bind-html="message.msg | enhanceText"></span>
             </li>
         </ul>
     </div>
     <form>
-        <textarea ng-model="input" ng-keyup="addMessage($event.keyCode)"></textarea>
+        <textarea ng-model="input" ng-keyup="addMessage($event)"></textarea>
         <input type="submit" value="send" ng-click="addMessage(13)"/>
     </form>
 </div>

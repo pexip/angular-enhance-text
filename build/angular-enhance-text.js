@@ -118,7 +118,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             // replace newlines with breaks
             if (options.newLineToBr) {
-                text = text.replace('/\n/g', '<br/>').replace('&#10;', '<br/>');
+                text = text.replace('/\n/g', '<br/>').replace(/&#10;/g, '<br/>');
             }
 
             // replace links

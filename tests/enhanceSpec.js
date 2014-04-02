@@ -35,6 +35,14 @@
     }));
 
 
+    it('should replace new lines', inject(function ($filter) {
+        provider.setOptions();
+        var filter = $filter('enhanceText');
+        expect(filter('This \nis a test\n').$$unwrapTrustedValue()).
+            toBe('This <br/>is a test<br/>');
+    }));
+
+
     it('should replace smilies', inject(function ($filter) {
         provider.setOptions({
             smilies: {

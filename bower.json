@@ -1,6 +1,6 @@
 {
   "name": "angular-enhance-text",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "build/angular-enhance-text.js",
   "authors": [
     "Bernhard Posselt <dev@bernhard-posselt.com>"
