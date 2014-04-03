@@ -90,6 +90,10 @@ module.exports = function(grunt) {
                 },
                 reporters: ['coverage']
             }
+        },
+        bump: {
+            files: ['bower.json', 'package.json'],
+            commitFiles: ['bower.json', 'package.json']
         }
     });
 

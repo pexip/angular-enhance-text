@@ -26,7 +26,8 @@
     "karma-phantomjs-launcher": "~0.1.2",
     "karma": "~0.10.9",
     "karma-coverage": "~0.1.5",
-    "coveralls": "~2.7.1"
+    "coveralls": "~2.7.1",
+    "grunt-bump": "0.0.13"
   },
   "scripts": {
     "test": "grunt ci"
