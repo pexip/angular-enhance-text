@@ -94,7 +94,9 @@ module.exports = function(grunt) {
         },
         bump: {
             files: ['bower.json', 'package.json'],
-            commitFiles: ['bower.json', 'package.json']
+            commitFiles: ['bower.json', 'package.json'],
+            pushTo: 'origin',
+            tagName: '%VERSION%'
         }
     });
 
