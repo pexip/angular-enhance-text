@@ -70,7 +70,16 @@ module.exports = function(grunt) {
                     'app/**/*.js'
                 ],
                 tasks: ['default']
+            },
+            homepage: {
+                files: [
+                    'index.html'
+                ],
+                options: {
+                    livereload: true
+                }
             }
+
         },
         karma: {
             unit: {

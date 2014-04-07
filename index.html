@@ -1,9 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="Chat">
 <head>
     <title>Angular-Enhance-Text</title>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-sanitize.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script>
+    <script src="http://rawgithub.com/Raydiation/angular-enhance-text/master/build/angular-enhance-text.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+
+        var app = angular.module('Chat', ['bernhardposselt.enhancetext']).
+            config(function (enhanceTextFilterProvider) {
+                enhanceTextFilterProvider.setOptions({
+                    embeddedYoutubeHeight: 315,
+                    embeddedYoutubeWidth: 560, 
+                    smilies: {
+                        ';)': '{{ site.baseurl }}/master/examples/48px-Face-wink.svg'  // creative commons wikipedia http://commons.wikimedia.org/wiki/File:Face-wink.svg
+                    }
+                });
+            }).controller('AppController', ['$scope', function ($scope) {
+                $scope.smilies = 'Hello my friend ;)';
+            }]);
+    </script>
+
 </head>
 <body>
+<div class="container" ng-controller="AppController">
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#setup">Setup</a></li>
+          <li><a href="https://github.com/Raydiation/angular-enhance-text">Contribute</a></li>
+        </ul>
+        <h3 class="text-muted">Angular-Enhance-Text</h3>
+    </div>
 
+    <hr>
+
+    <h1>What it does</h1>
+    <p>Angular-Enhance-Text takes simple text and replaces links and custom 
+    definable character sequences (e.g. smilies) into HTML. It allows you to easily: </p>
+    <ul>
+        <li>Links with HTML links</li>
+        <li>Embeds smilies</li>
+        <li>Embed links</li>
+        <li>Embed images (gif|jpg|jpeg|tiff|png|svg|webp)</li>
+        <li>Embed videos (ogv|webm)</li>
+        <li>Embed youtube videos</li>
+    </ul>
+
+    <h2>Smilies</h2>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <textarea ng-model="smilies"></textarea>
+            </div>
+            <div class="col-md-4" ng-bind-html="smilies | enhanceText"></div>
+        </div>
+    </div>
+
+    <h2>Links</h2>
+
+    <h2>Images</h2>
+
+    <h2>Videos</h2>
+
+    <h2>YouTube</h2>
+
+    <h1>Usage</h1>
+
+    <p>The filter generates HTML so you need to use <b>ng-bind-html</b> to bind the result to the element's body. 
+    All passed in text is sanitized with <b>$sanitize</b> first and then cached for future access.</p>
+
+    <pre><code language-html>&lt;div ng-bind-html="SomeText | enhanceText"&gt;&lt;/div&gt;</code></pre>
+
+    <h1 name="setup">Setup</h1>
+
+    <p>Get the <a href="https://github.com/Raydiation/angular-enhance-text/releases">newest release from GitHub</a>
+    or install via Twitter Bower:</p>
+
+    <pre>bower install angular-enhance-text</pre>
+
+    <p>Then inlcude it, inject it into your app and configure it if needed. The following options are the defaults if it is not set:</p>
+
+    <pre><code language-js>angular.module('MyApp', ['bernhardposselt.enhancetext']).
+config(['enhanceTextFilterProvider', function (enhanceTextFilterProvider) {
+    // default options
+    enhanceTextFilterProvider.setOptions({
+        cache: true,  
+        newLineToBr: true,  
+        embedLinks: true,  
+        embeddedLinkTarget: '_blank', 
+        embedImages: true,  
+        embeddedImagesHeight: undefined,
+        embeddedImagesWidth: undefined, 
+        embedVideos: true,  
+        embeddedVideosHeight: undefined, 
+        embeddedVideosWidth: undefined,  
+        embedYoutube: true,  
+        embeddedYoutubeHeight: undefined, 
+        embeddedYoutubeWidth: undefined, 
+        smilies: {  
+            ':)': '/img/smiley.png',
+            ';)': '/img/smiley2.png'
+        }
+    });
+}]);</code></pre>
+
+
+    
+</div>
 </body>
+
+<style type="text/css">
+.hljs{display:block;padding:.5em;color:#333;background:#f8f8f8}.diff .hljs-header,.hljs-comment,.hljs-javadoc,.hljs-template_comment{color:#998;font-style:italic}.css .rule .hljs-keyword,.hljs-keyword,.hljs-request,.hljs-status,.hljs-subst,.hljs-winutils,.javascript .hljs-title,.nginx .hljs-title{color:#333;font-weight:700}.hljs-hexcolor,.hljs-number,.ruby .hljs-constant{color:#099}.hljs-phpdoc,.hljs-string,.hljs-tag .hljs-value,.tex .hljs-formula{color:#d14}.coffeescript .hljs-params,.hljs-id,.hljs-title,.scss .hljs-preprocessor{color:#900;font-weight:700}.clojure .hljs-title,.hljs-subst,.javascript .hljs-title,.lisp .hljs-title{font-weight:400}.haskell .hljs-type,.hljs-class .hljs-title,.tex .hljs-command,.vhdl .hljs-literal{color:#458;font-weight:700}.django .hljs-tag .hljs-keyword,.hljs-rules .hljs-property,.hljs-tag,.hljs-tag .hljs-title{color:navy;font-weight:400}.hljs-attribute,.hljs-variable,.lisp .hljs-body{color:teal}.hljs-regexp{color:#009926}.hljs-prompt,.hljs-symbol,.lisp .hljs-keyword,.ruby .hljs-symbol .hljs-string,.tex .hljs-special{color:#990073}.clojure .hljs-built_in,.hljs-built_in,.lisp .hljs-title{color:#0086b3}.hljs-cdata,.hljs-doctype,.hljs-pi,.hljs-pragma,.hljs-preprocessor,.hljs-shebang{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.diff .hljs-change{background:#0086b3}.hljs-chunk{color:#aaa}
+</style>
 </html>
