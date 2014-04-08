@@ -3,7 +3,7 @@ angular-enhance-text (0.0.9)
 * Add github page
 
 angular-enhance-text (0.0.8)
-* Add git bump for creating new versions
+* Add grunt bump for creating new versions
 
 angular-enhance-text (0.0.7)
 * Allow similar inputs in the example file
