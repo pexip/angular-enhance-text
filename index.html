@@ -20,21 +20,32 @@
                 enhanceTextFilterProvider.setOptions({
                     embeddedYoutubeHeight: 315,
                     embeddedYoutubeWidth: 560, 
+                    embeddedImagesHeight: 215,
+                    embeddedVideosHeight: 215,
                     smilies: {
                         ';)': 'examples/48px-Face-wink.svg'  // creative commons wikipedia http://commons.wikimedia.org/wiki/File:Face-wink.svg
                     }
                 });
             }).controller('AppController', ['$scope', function ($scope) {
                 $scope.smilies = 'Hello my friend ;)';
+                $scope.links = 'Hey dude, check out https://github.com/Raydiation/angular-enhance-text/releases';
+                $scope.images = 'Hehe, http://www.funnymisfit.com/wp-content/uploads/2013/03/grumpy-cat-non.jpg';
+                $scope.videos = 'Must see: http://video.webmfiles.org/big-buck-bunny_trailer.webm';
+                $scope.youtube = 'Soundtrack for your life http://www.youtube.com/watch?v=eh7lp9umG2I';
             }]);
     </script>
-
+    <style type="text/css">
+        textarea {
+            min-height: 100px;
+        }
+    </style>
 </head>
 <body>
 <div class="container" ng-controller="AppController">
     <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
+          <li><a href="#examples">Examples</a></li>
           <li><a href="#setup">Setup</a></li>
           <li><a href="https://github.com/Raydiation/angular-enhance-text">Contribute</a></li>
         </ul>
@@ -55,24 +66,84 @@
         <li>Embed youtube videos</li>
     </ul>
 
+    <p>This is useful if you want to write an HTML5 chat application or simply 
+    create a WYSIWYG editor with simple content.</p>
+
+    <h1 id="examples">Examples</h1>
     <h2>Smilies</h2>
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <textarea ng-model="smilies"></textarea>
+                <label for="smilie">Input</label>
+                <textarea name="smilie" class="form-control" ng-model="smilies"></textarea>
             </div>
-            <div class="col-md-4" ng-bind-html="smilies | enhanceText"></div>
+            <div class="col-md-4">
+                <b>Result</b>
+                <div ng-bind-html="smilies | enhanceText"></div>
+            </div>
         </div>
     </div>
 
     <h2>Links</h2>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="links">Input</label>
+                <textarea name="links" class="form-control" ng-model="links"></textarea>
+            </div>
+            <div class="col-md-4">
+                <b>Result</b>
+                <div ng-bind-html="links | enhanceText"></div>
+            </div>
+        </div>
+    </div>
+
     <h2>Images</h2>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="images">Input</label>
+                <textarea name="images" class="form-control" ng-model="images"></textarea>
+            </div>
+            <div class="col-md-4">
+                <b>Result</b>
+                <div ng-bind-html="images | enhanceText"></div>
+            </div>
+        </div>
+    </div>
 
     <h2>Videos</h2>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="videos">Input</label>
+                <textarea name="videos" class="form-control" ng-model="videos"></textarea>
+            </div>
+            <div class="col-md-4">
+                <b>Result</b>
+                <div ng-bind-html="videos | enhanceText"></div>
+            </div>
+        </div>
+    </div>
+
     <h2>YouTube</h2>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="youtube">Input</label>
+                <textarea name="youtube" class="form-control" ng-model="youtube"></textarea>
+            </div>
+            <div class="col-md-4">
+                <b>Result</b>
+                <div ng-bind-html="youtube | enhanceText"></div>
+            </div>
+        </div>
+    </div>
 
     <h1>Usage</h1>
 
@@ -81,7 +152,7 @@
 
     <pre><code language-html>&lt;div ng-bind-html="SomeText | enhanceText"&gt;&lt;/div&gt;</code></pre>
 
-    <h1 name="setup">Setup</h1>
+    <h1 id="setup">Setup</h1>
 
     <p>Get the <a href="https://github.com/Raydiation/angular-enhance-text/releases">newest release from GitHub</a>
     or install via Twitter Bower:</p>
