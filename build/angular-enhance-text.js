@@ -81,6 +81,15 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
                 var lineBreakSmiley = " " + escapeRegExp(smiley) + "&#10;";
                 text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
+
+                var onlySmileyNewLine = "&#10;" + escapeRegExp(smiley) + " ";
+                text = text.replace(new RegExp(onlySmileyNewLine), "&#10;" + replacement + " ");
+
+                var endSmileyNewLine = "&#10;" + escapeRegExp(smiley) + "$";
+                text = text.replace(new RegExp(endSmileyNewLine), "&#10;" + replacement);
+
+                var lineBreakSmileyNewLine = "&#10;" + escapeRegExp(smiley) + "&#10;";
+                text = text.replace(new RegExp(lineBreakSmileyNewLine), "&#10;" + replacement + "&#10;");
             }
 
             // embed images

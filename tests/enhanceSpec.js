@@ -99,6 +99,51 @@
     }));
 
 
+    it('should replace smilies at the start of a new line', 
+        inject(function ($filter) {
+    
+        provider.setOptions({
+            smilies: {
+                ':)': '/test/smile.png'
+            }
+        });
+        
+        var filter = $filter('enhanceText');
+        expect(filter('hey \n:)').$$unwrapTrustedValue()).
+            toBe('hey <br/><img alt=":)" src="/test/smile.png"/>');
+    }));
+
+
+    it('should replace smilies at the start of a new line and further content', 
+        inject(function ($filter) {
+    
+        provider.setOptions({
+            smilies: {
+                ':)': '/test/smile.png'
+            }
+        });
+        
+        var filter = $filter('enhanceText');
+        expect(filter('hey \n:) sup').$$unwrapTrustedValue()).
+            toBe('hey <br/><img alt=":)" src="/test/smile.png"/> sup');
+    }));
+
+
+    it('should replace smilies between new lines', 
+        inject(function ($filter) {
+    
+        provider.setOptions({
+            smilies: {
+                ':)': '/test/smile.png'
+            }
+        });
+        
+        var filter = $filter('enhanceText');
+        expect(filter('hey \n:)\n ').$$unwrapTrustedValue()).
+            toBe('hey <br/><img alt=":)" src="/test/smile.png"/><br/> ');
+    }));
+
+
     it('should replace smilies before a newline', 
         inject(function ($filter) {
     
