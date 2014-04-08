@@ -1,5 +1,6 @@
 angular-enhance-text (0.0.9)
 * Also replace smilies that appear on the start of a newline
+* Add github page
 
 angular-enhance-text (0.0.8)
 * Add git bump for creating new versions
