@@ -79,6 +79,9 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 var endSmiley = " " + escapeRegExp(smiley) + "$";
                 text = text.replace(new RegExp(endSmiley), " " + replacement);
 
+                var startSmiley = "^" + escapeRegExp(smiley) + " ";
+                text = text.replace(new RegExp(startSmiley), replacement + " ");
+
                 var lineBreakSmiley = " " + escapeRegExp(smiley) + "&#10;";
                 text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
 
