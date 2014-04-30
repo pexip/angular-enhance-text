@@ -33,7 +33,7 @@
 
     it('should replace smilies if text is only the smiley', function() {
         expect(smileyEnhancer(':)', options)).
-        	toBe('<img alt=":)" src="/test/smile.png"/>');
+            toBe('<img alt=":)" src="/test/smile.png"/>');
     });
 
 
@@ -44,13 +44,13 @@
 
 
     it('should replace smilies at the start of a new line', function() {
-		expect(smileyEnhancer('hey &#10;:)', options)).
+        expect(smileyEnhancer('hey &#10;:)', options)).
             toBe('hey &#10;<img alt=":)" src="/test/smile.png"/>');
     });
 
 
     it('should replace smilies at the start of a new line and more', function() {
-		expect(smileyEnhancer('hey &#10;:) sup', options)).
+        expect(smileyEnhancer('hey &#10;:) sup', options)).
             toBe('hey &#10;<img alt=":)" src="/test/smile.png"/> sup');
     });
 
@@ -69,7 +69,7 @@
     it('should replace 2 smilies seperated with a newline', function() {
         expect(smileyEnhancer(':)&#10;:)', options)).
             toBe('<img alt=":)" src="/test/smile.png"/>&#10;' +
-            	 '<img alt=":)" src="/test/smile.png"/>');
+                 '<img alt=":)" src="/test/smile.png"/>');
     });
 
     it('should replace 2 smilies on same line', function() {
