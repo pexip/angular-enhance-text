@@ -14,10 +14,8 @@
     beforeEach(inject(function(SmileyEnhancer) {
         smileyEnhancer = SmileyEnhancer;
         options = {
-            smilies: {
-                ':)': '/test/smile.png',
-                ';)': '/test/smile1.png',
-            }
+            ':)': '/test/smile.png',
+            ';)': '/test/smile1.png'
         };
     }));
 
@@ -46,31 +44,31 @@
 
 
     it('should replace smilies at the start of a new line', function() {
-		expect(smileyEnhancer('hey \n:)', options, options, options)).
-            toBe('hey <br/><img alt=":)" src="/test/smile.png"/>');
+		expect(smileyEnhancer('hey &#10;:)', options)).
+            toBe('hey &#10;<img alt=":)" src="/test/smile.png"/>');
     });
 
 
     it('should replace smilies at the start of a new line and more', function() {
-		expect(smileyEnhancer('hey \n:) sup', options, options)).
-            toBe('hey <br/><img alt=":)" src="/test/smile.png"/> sup');
+		expect(smileyEnhancer('hey &#10;:) sup', options)).
+            toBe('hey &#10;<img alt=":)" src="/test/smile.png"/> sup');
     });
 
 
     it('should replace smilies between new lines', function() {
-        expect(smileyEnhancer('hey \n:)\n ', options)).
-            toBe('hey <br/><img alt=":)" src="/test/smile.png"/><br/> ');
+        expect(smileyEnhancer('hey &#10;:)&#10; ', options)).
+            toBe('hey &#10;<img alt=":)" src="/test/smile.png"/>&#10; ');
     });
 
 
     it('should replace smilies before a newline', function() {
-        expect(smileyEnhancer('hey :)\nsome more', options)).
-            toBe('hey <img alt=":)" src="/test/smile.png"/><br/>some more');
+        expect(smileyEnhancer('hey :)&#10;some more', options)).
+            toBe('hey <img alt=":)" src="/test/smile.png"/>&#10;some more');
     });
     
     it('should replace 2 smilies seperated with a newline', function() {
-        expect(smileyEnhancer(':)\n:)', options)).
-            toBe('<img alt=":)" src="/test/smile.png"/><br/>' +
+        expect(smileyEnhancer(':)&#10;:)', options)).
+            toBe('<img alt=":)" src="/test/smile.png"/>&#10;' +
             	 '<img alt=":)" src="/test/smile.png"/>');
     });
 
@@ -82,11 +80,11 @@
 
 
     it('should replace 5 smilies', function () {
-        expect(smileyEnhancer(':)\n:)\n:)\n:)\n:)', options)).
-            toBe('<img alt=":)" src="/test/smile.png"/><br/>' + 
-            '<img alt=":)" src="/test/smile.png"/><br/>' + 
-            '<img alt=":)" src="/test/smile.png"/><br/>' + 
-            '<img alt=":)" src="/test/smile.png"/><br/>' + 
+        expect(smileyEnhancer(':)&#10;:)&#10;:)&#10;:)&#10;:)', options)).
+            toBe('<img alt=":)" src="/test/smile.png"/>&#10;' + 
+            '<img alt=":)" src="/test/smile.png"/>&#10;' + 
+            '<img alt=":)" src="/test/smile.png"/>&#10;' + 
+            '<img alt=":)" src="/test/smile.png"/>&#10;' + 
             '<img alt=":)" src="/test/smile.png"/>');
     });
 

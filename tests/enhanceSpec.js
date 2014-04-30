@@ -35,14 +35,6 @@
     }));
 
 
-    it('should replace new lines', inject(function ($filter) {
-        provider.setOptions();
-        var filter = $filter('enhanceText');
-        expect(filter('This \nis a test\n').$$unwrapTrustedValue()).
-            toBe('This <br/>is a test<br/>');
-    }));
-
-
     it('should not fail when caching is activated', inject(function ($filter) {
         provider.setOptions({
             cache: true
@@ -65,14 +57,6 @@
     }));
 
 
-    it('should create links', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-
-        expect(filter('hey http://google.de').$$unwrapTrustedValue()).
-            toBe('hey <a target="_blank" href="http://google.de">http://google.de</a>');
-    }));
-
-
     it('should not create links if disabled', inject(function ($filter) {
         var filter = $filter('enhanceText');
         provider.setOptions({
@@ -81,42 +65,6 @@
 
         expect(filter('hey http://google.de').$$unwrapTrustedValue()).
             toBe('hey http://google.de');
-    }));
-
-
-    it('should replace images', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-
-        expect(filter('hey http://google.de/test.png ho').
-            $$unwrapTrustedValue()).
-            toBe('hey <a href="http://google.de/test.png" target="_blank">' +
-                '<img alt="image" src="http://google.de/test.png"/></a> ho');
-    }));
-
-
-    it('should replace images and set height', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedImagesHeight: 300
-        });
-
-        expect(filter('hey http://google.de/test.png').$$unwrapTrustedValue()).
-            toBe('hey <a href="http://google.de/test.png" target="_blank">' + 
-                '<img height="300" alt="image" src="http://google.de/test.png"/></a>');
-    }));
-
-
-    it('should replace images and set width', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedImagesHeight: 300,
-            embeddedImagesWidth: 200
-        });
-
-        expect(filter('hey http://google.de/test.png').$$unwrapTrustedValue()).
-            toBe('hey <a href="http://google.de/test.png" target="_blank">' + 
-                '<img height="300" width="200" alt="image" ' + 
-                'src="http://google.de/test.png"/></a>');
     }));
 
 
@@ -142,37 +90,6 @@
     }));
 
 
-    it('should embed videos', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        expect(filter('hey http://google.de/test.webm ').$$unwrapTrustedValue()).
-            toBe('hey <video src="http://google.de/test.webm" controls preload="none"></video> ');
-    }));
-
-
-    it('should replace videos and set height', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedVideosHeight: 300
-        });
-
-        expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
-            toBe('hey <video height="300" src="http://google.de/test.webm" controls preload="none"></video>');
-    }));
-
-
-    it('should replace videos and set width', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedVideosHeight: 300,
-            embeddedVideosWidth: 200
-        });
-
-        expect(filter('hey http://google.de/test.webm').$$unwrapTrustedValue()).
-            toBe('hey <video height="300" width="200"' + 
-                ' src="http://google.de/test.webm" controls preload="none"></video>');
-    }));
-
-
     it('should not embed youtube if turned off', inject(function ($filter) {
         provider.setOptions({
             embedLinks: false,
@@ -185,39 +102,4 @@
     }));
 
 
-    it('should embed youtube', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-
-        expect(filter('hey http://www.youtube.com/watch?v=ks_520q4LEY ').$$unwrapTrustedValue()).
-            toBe('hey <iframe ' + 
-                'src="https://www.youtube.com/embed/ks_520q4LEY" ' + 
-                'frameborder="0" allowfullscreen></iframe> ');
-    }));
-
-
-    it('should replace Youtube and set height', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedYoutubeHeight: 300
-        });
-
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
-            toBe('hey <iframe height="300" ' + 
-                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
-                'frameborder="0" allowfullscreen></iframe> ');
-    }));
-
-
-    it('should replace Youtube and set width', inject(function ($filter) {
-        var filter = $filter('enhanceText');
-        provider.setOptions({
-            embeddedYoutubeHeight: 300,
-            embeddedYoutubeWidth: 200
-        });
-
-        expect(filter('hey http://www.youtube.com/watch?v=ksM520q4LEY ').$$unwrapTrustedValue()).
-            toBe('hey <iframe height="300" width="200" ' + 
-                'src="https://www.youtube.com/embed/ksM520q4LEY" ' + 
-                'frameborder="0" allowfullscreen></iframe> ');
-    }));
 });
