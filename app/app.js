@@ -62,7 +62,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             if (options.embedYoutube) {
                 text = YouTubeEnhancer(text, options.embeddedYoutubeHeight,
-                                       options.embeddedVideosWidth);
+                                       options.embeddedYoutubeWidth);
             }
 
             if (options.newLineToBr) {
