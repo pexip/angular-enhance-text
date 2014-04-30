@@ -29,6 +29,8 @@ module.exports = function(grunt) {
                 src: [
                     'app/app.js',
                     'app/filters/**/*.js',
+                    'app/services/**/*.js',
+                    'app/directives/**/*.js'
                 ],
                 dest: '<%= meta.production %>angular-enhance-text.js'
             }

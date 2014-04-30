@@ -160,5 +160,10 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
 
 });
+app.factory('SmileyEnhancer', function () {
+	return function(text, options) {
+
+	};
+});
 
 })(angular, undefined);
