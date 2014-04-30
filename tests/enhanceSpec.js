@@ -177,14 +177,15 @@
     
         provider.setOptions({
             smilies: {
-                ':)': '/test/smile.png'
+                ':)': '/test/smile.png',
+                ';)': '/test/smile1.png',
             }
         });
         
         var filter = $filter('enhanceText');
-        expect(filter(':) :)').$$unwrapTrustedValue()).
+        expect(filter(':) ;)').$$unwrapTrustedValue()).
             toBe('<img alt=":)" src="/test/smile.png"/> ' + 
-            '<img alt=":)" src="/test/smile.png"/>');
+            '<img alt=";)" src="/test/smile1.png"/>');
     }));
 
 

@@ -62,9 +62,12 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             // sanitize text
             text = $sanitize(text);
 
-            // loop over smilies and replace them in the text
             var smileyKeys = Object.keys(options.smilies);
-            var smileyReplacer = function (line) {
+            
+            // split input into lines to avoid dealing with tons of 
+            // additional complexity/combinations arising from new lines
+            var lines = text.split('&#10;');
+            var smileyReplacer = function (smiley, replacement, line) {
                 // four possibilities: at the beginning, at the end, in the
                 // middle or only the smiley
                 var startSmiley = "^" + escapeRegExp(smiley) + " ";
@@ -79,16 +82,19 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                     replace(new RegExp(onlySmiley), replacement);
             };
 
+            // loop over smilies and replace them in the text
             for (var i=0; i<smileyKeys.length; i++) {
                 var smiley = smileyKeys[i];
-                var smileyKeyPath = options.smilies[smiley];
                 var replacement = '<img alt="' + smiley + '" src="' + 
-                    smileyKeyPath + '"/>';
+                    options.smilies[smiley] + '"/>';
                 
-                // split input into lines to avoid dealing with tons of 
-                // additional complexity/combinations arising from new lines
-                text = text.split('&#10;').map(smileyReplacer).join('&#10;');
+                // partially apply the replacer function to set the replacement
+                // string
+                var replacer = smileyReplacer.bind(null, smiley, replacement);
+                lines = lines.map(replacer);
             }
+
+            text = lines.join('&#10;');
 
             // embed images
             if (options.embedImages) {
