@@ -36,7 +36,6 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                  LinkEnhancer) {
 
         return function (text) {
-
             var originalText = text;
 
             // hit cache first before replacing
@@ -47,35 +46,29 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 }
             }
 
-            // sanitize text
             text = $sanitize(text);
             text = SmileyEnhancer(text, options.smilies);
 
-            // embed images
             if (options.embedImages) {
                 text = ImageEnhancer(text, options.embeddedImagesHeight,
                                      options.embeddedVideosWidth, 
                                      options.embeddedLinkTarget);
             }
 
-            // embed videos
             if (options.embedVideos) {
                 text = VideoEnhancer(text, options.embeddedImagesHeight, 
                                      options.embeddedVideosWidth);
             }
 
-            // embed youtube
             if (options.embedYoutube) {
                 text = YouTubeEnhancer(text, options.embeddedYoutubeHeight,
                                        options.embeddedVideosWidth);
             }
 
-            // replace newlines with breaks
             if (options.newLineToBr) {
                 text = NewLineEnhancer(text);
             }
 
-            // replace links
             if (options.embedLinks) {
                 text = LinkEnhancer(text, options.embeddedLinkTarget);
             }
