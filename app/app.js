@@ -64,44 +64,30 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             // loop over smilies and replace them in the text
             var smileyKeys = Object.keys(options.smilies);
+            var smileyReplacer = function (line) {
+                // four possibilities: at the beginning, at the end, in the
+                // middle or only the smiley
+                var startSmiley = "^" + escapeRegExp(smiley) + " ";
+                var endSmiley = " " + escapeRegExp(smiley) + "$";
+                var middleSmiley = " " + escapeRegExp(smiley) + " ";
+                var onlySmiley = "^" + escapeRegExp(smiley) + "$";
+
+                return line.
+                    replace(new RegExp(startSmiley), replacement + " ").
+                    replace(new RegExp(endSmiley), " " + replacement).
+                    replace(new RegExp(middleSmiley), " " + replacement + " ").
+                    replace(new RegExp(onlySmiley), replacement);
+            };
+
             for (var i=0; i<smileyKeys.length; i++) {
                 var smiley = smileyKeys[i];
                 var smileyKeyPath = options.smilies[smiley];
                 var replacement = '<img alt="' + smiley + '" src="' + 
                     smileyKeyPath + '"/>';
                 
-                var middleSmiley = " " + escapeRegExp(smiley) + " ";
-                text = text.replace(new RegExp(middleSmiley), " " + replacement + " ");
-
-                var onlySmiley = "^" + escapeRegExp(smiley) + "$";
-                text = text.replace(new RegExp(onlySmiley), replacement);
-
-                var endSmiley = " " + escapeRegExp(smiley) + "$";
-                text = text.replace(new RegExp(endSmiley), " " + replacement);
-
-                var startSmiley = "^" + escapeRegExp(smiley) + " ";
-                text = text.replace(new RegExp(startSmiley), replacement + " ");
-
-                var lineBreakSmiley = " " + escapeRegExp(smiley) + "&#10;";
-                text = text.replace(new RegExp(lineBreakSmiley), " " + replacement + "&#10;");
-
-                var newLineBetweenSmiley = "&#10;" + escapeRegExp(smiley) + "&#10;";
-                text = text.replace(new RegExp(newLineBetweenSmiley), "&#10;" + replacement + "&#10;");
-
-                var newLineEndSmiley = "&#10;" + escapeRegExp(smiley) + "$";
-                text = text.replace(new RegExp(newLineEndSmiley), "&#10;" + replacement);
-
-                var newLineStartSmiley = "^" + escapeRegExp(smiley) + "&#10;";
-                text = text.replace(new RegExp(newLineStartSmiley), replacement + "&#10;");
-
-                var onlySmileyNewLine = "&#10;" + escapeRegExp(smiley) + " ";
-                text = text.replace(new RegExp(onlySmileyNewLine), "&#10;" + replacement + " ");
-
-                var endSmileyNewLine = "&#10;" + escapeRegExp(smiley) + "$";
-                text = text.replace(new RegExp(endSmileyNewLine), "&#10;" + replacement);
-
-                var lineBreakSmileyNewLine = "&#10;" + escapeRegExp(smiley) + "&#10;";
-                text = text.replace(new RegExp(lineBreakSmileyNewLine), "&#10;" + replacement + "&#10;");
+                // split input into lines to avoid dealing with tons of 
+                // additional complexity/combinations arising from new lines
+                text = text.split('&#10;').map(smileyReplacer).join('&#10;');
             }
 
             // embed images

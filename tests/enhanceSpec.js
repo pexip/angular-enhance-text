@@ -188,6 +188,25 @@
     }));
 
 
+    it('should replace 5 smilies', 
+        inject(function ($filter) {
+    
+        provider.setOptions({
+            smilies: {
+                ':)': '/test/smile.png'
+            }
+        });
+        
+        var filter = $filter('enhanceText');
+        expect(filter(':)\n:)\n:)\n:)\n:)').$$unwrapTrustedValue()).
+            toBe('<img alt=":)" src="/test/smile.png"/><br/>' + 
+            '<img alt=":)" src="/test/smile.png"/><br/>' + 
+            '<img alt=":)" src="/test/smile.png"/><br/>' + 
+            '<img alt=":)" src="/test/smile.png"/><br/>' + 
+            '<img alt=":)" src="/test/smile.png"/>');
+    }));
+
+
     it('should not fail when caching is activated', inject(function ($filter) {
         provider.setOptions({
             cache: true
