@@ -1,0 +1,7 @@
+filter:
+    excluded_paths:
+        - 'build/*'
+        - 'bower_components/*'
+        
+imports:
+    - javascript
