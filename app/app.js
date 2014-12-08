@@ -28,13 +28,9 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
         angular.extend(options, customOptions);
     };
 
-    this.$get = ['$sanitize', '$sce', 'SmileyEnhancer', 'VideoEnhancer',
-                 'NewLineEnhancer', 'ImageEnhancer', 'YouTubeEnhancer', 
-                 'LinkEnhancer',
-        function ($sanitize, $sce, SmileyEnhancer, VideoEnhancer, 
-                 NewLineEnhancer, ImageEnhancer, YouTubeEnhancer,
-                 LinkEnhancer) {
-
+    /* @ngInject */
+    this.$get = function ($sce, SmileyEnhancer, VideoEnhancer, NewLineEnhancer,
+                          ImageEnhancer, YouTubeEnhancer, LinkEnhancer) {
         return function (text) {
             var originalText = text;
 
@@ -46,17 +42,17 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 }
             }
 
-            text = $sanitize(text);
+            text = escapeHtml(text);
             text = SmileyEnhancer(text, options.smilies);
 
             if (options.embedImages) {
                 text = ImageEnhancer(text, options.embeddedImagesHeight,
-                                     options.embeddedVideosWidth, 
+                                     options.embeddedVideosWidth,
                                      options.embeddedLinkTarget);
             }
 
             if (options.embedVideos) {
-                text = VideoEnhancer(text, options.embeddedImagesHeight, 
+                text = VideoEnhancer(text, options.embeddedImagesHeight,
                                      options.embeddedVideosWidth);
             }
 
@@ -83,7 +79,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
 
             return text;
         };
-    }];
+    };
 
 
 });

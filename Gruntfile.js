@@ -10,6 +10,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-wrap');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-bump');
@@ -52,6 +53,12 @@ module.exports = function(grunt) {
                         '\n})(angular, undefined);'
                     ]
                 }
+            }
+        },
+        ngAnnotate: {
+            app: {
+                src: ['<%= meta.production %>angular-enhance-text.js'],
+                dest: '<%= meta.production %>angular-enhance-text.js',
             }
         },
         jshint: {
@@ -107,7 +114,8 @@ module.exports = function(grunt) {
     });
 
     // make tasks available under simpler commands
-    grunt.registerTask('default', ['jshint', 'concat', 'wrap', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'concat', 'wrap', 'ngAnnotate',
+                                   'uglify']);
     grunt.registerTask('test', ['karma:unit']);
     grunt.registerTask('ci', ['default', 'karma:continuous']);
 

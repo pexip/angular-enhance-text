@@ -28,13 +28,9 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
         angular.extend(options, customOptions);
     };
 
-    this.$get = ['$sanitize', '$sce', 'SmileyEnhancer', 'VideoEnhancer',
-                 'NewLineEnhancer', 'ImageEnhancer', 'YouTubeEnhancer', 
-                 'LinkEnhancer',
-        function ($sanitize, $sce, SmileyEnhancer, VideoEnhancer, 
-                 NewLineEnhancer, ImageEnhancer, YouTubeEnhancer,
-                 LinkEnhancer) {
-
+    /* @ngInject */
+    this.$get = ["$sce", "SmileyEnhancer", "VideoEnhancer", "NewLineEnhancer", "ImageEnhancer", "YouTubeEnhancer", "LinkEnhancer", function ($sce, SmileyEnhancer, VideoEnhancer, NewLineEnhancer,
+                          ImageEnhancer, YouTubeEnhancer, LinkEnhancer) {
         return function (text) {
             var originalText = text;
 
@@ -46,17 +42,17 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 }
             }
 
-            text = $sanitize(text);
+            text = escapeHtml(text);
             text = SmileyEnhancer(text, options.smilies);
 
             if (options.embedImages) {
                 text = ImageEnhancer(text, options.embeddedImagesHeight,
-                                     options.embeddedVideosWidth, 
+                                     options.embeddedVideosWidth,
                                      options.embeddedLinkTarget);
             }
 
             if (options.embedVideos) {
-                text = VideoEnhancer(text, options.embeddedImagesHeight, 
+                text = VideoEnhancer(text, options.embeddedImagesHeight,
                                      options.embeddedVideosWidth);
             }
 
@@ -84,6 +80,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             return text;
         };
     }];
+    this.$get.$inject = ["$sce", "SmileyEnhancer", "VideoEnhancer", "NewLineEnhancer", "ImageEnhancer", "YouTubeEnhancer", "LinkEnhancer"];
 
 
 });
@@ -123,12 +120,12 @@ app.factory('NewLineEnhancer', function () {
 });
 app.factory('SmileyEnhancer', function () {
     return function(text, smilies) {
-        
+
         var smileyKeys = Object.keys(smilies);
-        
-        // split input into lines to avoid dealing with tons of 
+
+        // split input into lines to avoid dealing with tons of
         // additional complexity/combinations arising from new lines
-        var lines = text.split('&#10;');
+        var lines = text.split('\n');
 
         var smileyReplacer = function (smiley, replacement, line) {
             // four possibilities: at the beginning, at the end, in the
@@ -148,16 +145,16 @@ app.factory('SmileyEnhancer', function () {
         // loop over smilies and replace them in the text
         for (var i=0; i<smileyKeys.length; i++) {
             var smiley = smileyKeys[i];
-            var replacement = '<img alt="' + smiley + '" src="' + 
+            var replacement = '<img alt="' + smiley + '" src="' +
                 smilies[smiley] + '"/>';
-            
+
             // partially apply the replacer function to set the replacement
             // string
             var replacer = smileyReplacer.bind(null, smiley, replacement);
             lines = lines.map(replacer);
         }
 
-        return lines.join('&#10;');
+        return lines.join('\n');
     };
 });
 app.factory('VideoEnhancer', function () {
@@ -179,8 +176,13 @@ app.factory('YouTubeEnhancer', function () {
         return text.replace(regex, html);
     };
 });
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
 // taken from https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-function escapeRegExp(str) {
+function escapeRegExp (str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 function getDimensionsHtml (height, width) {

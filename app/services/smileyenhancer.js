@@ -5,12 +5,12 @@
  */
 app.factory('SmileyEnhancer', function () {
     return function(text, smilies) {
-        
+
         var smileyKeys = Object.keys(smilies);
-        
-        // split input into lines to avoid dealing with tons of 
+
+        // split input into lines to avoid dealing with tons of
         // additional complexity/combinations arising from new lines
-        var lines = text.split('&#10;');
+        var lines = text.split('\n');
 
         var smileyReplacer = function (smiley, replacement, line) {
             // four possibilities: at the beginning, at the end, in the
@@ -30,15 +30,15 @@ app.factory('SmileyEnhancer', function () {
         // loop over smilies and replace them in the text
         for (var i=0; i<smileyKeys.length; i++) {
             var smiley = smileyKeys[i];
-            var replacement = '<img alt="' + smiley + '" src="' + 
+            var replacement = '<img alt="' + smiley + '" src="' +
                 smilies[smiley] + '"/>';
-            
+
             // partially apply the replacer function to set the replacement
             // string
             var replacer = smileyReplacer.bind(null, smiley, replacement);
             lines = lines.map(replacer);
         }
 
-        return lines.join('&#10;');
+        return lines.join('\n');
     };
 });

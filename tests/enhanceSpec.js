@@ -8,7 +8,7 @@
 
     var provider;
 
-    beforeEach(module('bernhardposselt.enhancetext', 
+    beforeEach(module('bernhardposselt.enhancetext',
         function (enhanceTextFilterProvider) {
             provider = enhanceTextFilterProvider;
             provider.setOptions({
@@ -18,8 +18,9 @@
     );
 
 
-    it('should not change a normal string', inject(function($filter) {  
+    it('should not change a normal string', inject(function($filter) {
         var filter = $filter('enhanceText');
+        console.log(filter('This is a test'));
         expect(filter('This is a test').$$unwrapTrustedValue()).
             toBe('This is a test');
     }));
@@ -31,7 +32,7 @@
         });
         var filter = $filter('enhanceText');
         expect(filter('This is a test\n').$$unwrapTrustedValue()).
-            toBe('This is a test&#10;');
+            toBe('This is a test\n');
     }));
 
 
@@ -53,7 +54,7 @@
         var filter = $filter('enhanceText');
 
         expect(filter('hey :)\nsome more<script>').$$unwrapTrustedValue()).
-            toBe('hey :)<br/>some more');
+            toBe('hey :)<br/>some more&lt;script&gt;');
     }));
 
 
