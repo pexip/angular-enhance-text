@@ -20,7 +20,6 @@
 
     it('should not change a normal string', inject(function($filter) {
         var filter = $filter('enhanceText');
-        console.log(filter('This is a test'));
         expect(filter('This is a test').$$unwrapTrustedValue()).
             toBe('This is a test');
     }));

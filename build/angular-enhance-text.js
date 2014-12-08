@@ -29,8 +29,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
     };
 
     /* @ngInject */
-    this.$get = ["$sce", "SmileyEnhancer", "VideoEnhancer", "NewLineEnhancer", "ImageEnhancer", "YouTubeEnhancer", "LinkEnhancer", function ($sce, SmileyEnhancer, VideoEnhancer, NewLineEnhancer,
-                          ImageEnhancer, YouTubeEnhancer, LinkEnhancer) {
+    this.$get = ["$sce", "TextEnhancer", function ($sce, TextEnhancer) {
         return function (text) {
             var originalText = text;
 
@@ -42,32 +41,7 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
                 }
             }
 
-            text = escapeHtml(text);
-            text = SmileyEnhancer(text, options.smilies);
-
-            if (options.embedImages) {
-                text = ImageEnhancer(text, options.embeddedImagesHeight,
-                                     options.embeddedVideosWidth,
-                                     options.embeddedLinkTarget);
-            }
-
-            if (options.embedVideos) {
-                text = VideoEnhancer(text, options.embeddedImagesHeight,
-                                     options.embeddedVideosWidth);
-            }
-
-            if (options.embedYoutube) {
-                text = YouTubeEnhancer(text, options.embeddedYoutubeHeight,
-                                       options.embeddedYoutubeWidth);
-            }
-
-            if (options.newLineToBr) {
-                text = NewLineEnhancer(text);
-            }
-
-            if (options.embedLinks) {
-                text = LinkEnhancer(text, options.embeddedLinkTarget);
-            }
+            text = TextEnhancer(text, options);
 
             // trust result to able to use it in ng-bind-html
             text = $sce.trustAsHtml(text);
@@ -80,10 +54,46 @@ var app = angular.module('bernhardposselt.enhancetext', ['ngSanitize'])
             return text;
         };
     }];
-    this.$get.$inject = ["$sce", "SmileyEnhancer", "VideoEnhancer", "NewLineEnhancer", "ImageEnhancer", "YouTubeEnhancer", "LinkEnhancer"];
+    this.$get.$inject = ["$sce", "TextEnhancer"];
 
 
 });
+app.factory('TextEnhancer',
+["SmileyEnhancer", "VideoEnhancer", "NewLineEnhancer", "ImageEnhancer", "YouTubeEnhancer", "LinkEnhancer", function (SmileyEnhancer, VideoEnhancer, NewLineEnhancer, ImageEnhancer,
+          YouTubeEnhancer, LinkEnhancer) {
+    return function (text, options) {
+        text = escapeHtml(text);
+        text = SmileyEnhancer(text, options.smilies);
+
+        if (options.embedImages) {
+            text = ImageEnhancer(text, options.embeddedImagesHeight,
+                                 options.embeddedVideosWidth,
+                                 options.embeddedLinkTarget);
+        }
+
+        if (options.embedVideos) {
+            text = VideoEnhancer(text, options.embeddedImagesHeight,
+                                 options.embeddedVideosWidth);
+        }
+
+        if (options.embedYoutube) {
+            text = YouTubeEnhancer(text, options.embeddedYoutubeHeight,
+                                   options.embeddedYoutubeWidth);
+        }
+
+        if (options.newLineToBr) {
+            text = NewLineEnhancer(text);
+        }
+
+        if (options.embedLinks) {
+            text = LinkEnhancer(text, options.embeddedLinkTarget);
+        }
+
+        return text;
+    };
+}]);
+
+
 app.factory('ImageEnhancer', function () {
     return function (text, height, width, target) {
         if(target === undefined) {
