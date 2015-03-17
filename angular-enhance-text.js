@@ -45,11 +45,11 @@ app.factory('ImageEnhancer', function () {
         if(target === undefined) {
             target = '_blank';
         }
-        
+
         var imgRegex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
         var imgDimensions = getDimensionsHtml(height, width);
 
-        var img = '<a href="$1" target="' + target + 
+        var img = '<a href="$1" target="' + target +
             '">' + '<img ' + imgDimensions + 'alt="image" src="$1"/>$1</a>';
         return text.replace(imgRegex, img);
     };
@@ -61,10 +61,10 @@ app.factory('LinkEnhancer', function () {
         }
 
         var regex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-        
+
         return text.replace(regex, function() {
-            return  arguments[1] ? 
-                arguments[0] : 
+            return  arguments[1] ?
+                arguments[0] :
                 '<a target="' + target + '" href="'+ arguments[3] + '">' + arguments[3] + '</a>';
         });
     };
@@ -126,8 +126,8 @@ app.factory('YouTubeEnhancer', function () {
         var regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
         var dimensions = getDimensionsHtml(height, width);
 
-        var html = '<iframe ' + dimensions + 
-            'src="https://www.youtube.com/embed/$1" ' + 
+        var html = '<iframe ' + dimensions +
+            'src="https://www.youtube.com/embed/$1" ' +
             'frameborder="0" allowfullscreen></iframe>';
         return text.replace(regex, html);
     };
